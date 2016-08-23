@@ -1,0 +1,35 @@
+Introduction and Guidelines
+
+IMPORTANT: Bloodystats calculates either ALL talent combinations you saved in 'custom_talent_combinations.simc' or -t all talent combinations possible with a two digit number representing the last two dps-talent-rows for that spec.
+
+
+1) Installation
+ - unzip
+ - place directory 'Bloodystats' inside your <SimulationCraft> directory (however that is called at your system)
+
+
+2) Usage
+ - open the basic Commandline from Windows by Shift+right clicking inside the 'Bloodystats' directory
+ - enter 'stat_distribution.exe <race> <class> <spec>' without '' and < > to use talent combinations from 'custom_talent_combinations.simc' OR
+ - enter 'stat_distribution.exe <race> <class> <spec> -t XY' without '' and < > to calculate all talent combinations with Y as the last and X as the second last dps-talent-row-choice. Further examples with actual values can be found int he "Examples" topic.
+
+
+3) Developer tips
+ If you want to test with a different apl or gear than the normal apl file provides, just open that file and change whatever you want to change. But make sure:
+ a) the outcommented lines at the bottom (summary of your secondary and primary stats) reflect your new equip 
+ b) whatever talent combination you want to test: it HAS to be inside 'custom_talent_combinations'. The talent combination inside the default apl file will be ignored by Bloodystats.
+ 
+ For further params please see to 'stat_distribution.exe -h' / 'stat_distribution.exe --help'
+
+
+4) Examples
+ Works fine with standard Win10 command line. Powershell should work now, too.
+ 'stat_distribution.exe orc rogue assassination' - calculates all talent combinations for assassination rogue contained in 'custom_talent_combinations'
+
+ 'stat_distribution.exe dwarf shaman elemental -t 32 -f 2 -html' - calculates all talent combinations available in combination with the last two dps talent rows where the second last has the right talent and the last has the middle one for LightMovement. Additionally all calculations create and overwrite a html file.
+
+ 'stat_distribution.exe human mage arcane -t2 -t4' same as first but in addition with the tier 19 set 2 and 4 piece bonus
+
+5) Contact
+ Hit me up on Discord: https://discord.gg/0VcupJEQX0HuE5HH Channel:#Bloodystats
+ Feedback is highly appreciated!
