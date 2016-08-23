@@ -13,6 +13,9 @@
 # This program is provided as is. No warranity
 # of any kind is given. Use it at your own risk.
 #
+# TORESEARCH: item budget depending on iLevel,
+#	to determine secondary stat pool and primary
+#
 # TODO:
 #		tanks?
 # Personal reminder:
@@ -44,7 +47,12 @@ import argparse
 # differential evolution...
 from scipy.optimize import differential_evolution
 
-parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.me/earthshrine #bloodystats -Program calculates best secondary stat distribution for talent combinations using differential evolution for a good start to polish result with gradient method using scale factors. Version:17.08.16")
+
+#-----------------
+# Argument parser
+#-----------------
+
+parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.me/earthshrine #bloodystats -Program calculates best secondary stat distribution for talent combinations. Version:23.08.16")
 parser.add_argument("race_choice", nargs="?", default="dwarf", choices=["dwarf", "gnome", "human", "draenei", "nightelf", "worgen", "pandaren", "orc", "troll", "tauren", "undead", "bloodelf", "goblin"], help="Name of the race")
 parser.add_argument("class_choice", nargs="?", default="shaman", choices=["death_knight", "paladin", "shaman", "hunter", "rogue", "warrior", "demon_hunter", "mage", "warlock", "monk", "druid", "priest"], help="Name of the class of your character")
 parser.add_argument("spec_choice", nargs="?", default="elemental", help="Name of the specialisation of your character")
