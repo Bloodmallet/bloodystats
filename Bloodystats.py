@@ -15,9 +15,11 @@
 #
 # TODO:
 #		tanks?
-# Echoes of the Great Sundering
-# To build use powershell and 
-# pyinstaller .\Bloodystats.spec
+# Personal reminder:
+# "Echoes of the Great Sundering"
+# How to build:
+# 	use powershell and 
+# 	pyinstaller .\Bloodystats.spec
 #
 #
 # Questions, ideas? Hit me up on Discord:
