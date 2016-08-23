@@ -17,7 +17,7 @@
 #		tanks?
 # Echoes of the Great Sundering
 # To build use powershell and 
-# pyinstaller --distpath 'D:\Programme\SimulationCraft\Bloodystats_release' --clean --onedir 'D:\Programme\SimulationCraft\Bloodystats\Bloodystats.py'
+# pyinstaller .\Bloodystats.spec
 #
 #
 # Questions, ideas? Hit me up on Discord:
