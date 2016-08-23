@@ -167,6 +167,7 @@ def gradient_func(secondary_values, stuff):
 		#argument += "spec=" + args.spec_choice + " "
 		argument += "calculate_scale_factors=1 "
 		argument += "scale_only=crit,haste,mastery,versatility "
+		argument += "scale_strength=320 "
 		#argument += "name=" + nameOfSimulation + " "
 		argument += "talents=" + stuff["talent_selection"] + " "
 		#argument += "apl.simc "
