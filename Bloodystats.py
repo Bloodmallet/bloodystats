@@ -52,7 +52,7 @@ from scipy.optimize import differential_evolution
 # Argument parser
 #-----------------
 
-parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.me/earthshrine #bloodystats -Program calculates best secondary stat distribution for talent combinations. Version:23.08.16")
+parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.me/earthshrine #bloodystats -Program calculates best secondary stat distribution for talent combinations. Version:29.08.16")
 parser.add_argument("race_choice", nargs="?", default="dwarf", choices=["dwarf", "gnome", "human", "draenei", "nightelf", "worgen", "pandaren", "orc", "troll", "tauren", "undead", "bloodelf", "goblin"], help="Name of the race")
 parser.add_argument("class_choice", nargs="?", default="shaman", choices=["death_knight", "paladin", "shaman", "hunter", "rogue", "warrior", "demon_hunter", "mage", "warlock", "monk", "druid", "priest"], help="Name of the class of your character")
 parser.add_argument("spec_choice", nargs="?", default="elemental", help="Name of the specialisation of your character")
@@ -395,13 +395,10 @@ def de_func(values, *stuff):
 	else:
 		argument += "fight_style=" + fight_style + " "
 	argument += "race=" + args.race_choice + " "
-	#argument += args.class_choice + "=Bloodystats "
-	#argument += "spec=" + args.spec_choice + " "
-	argument += "calculate_scale_factors=0 "
-	#argument += "name=" + nameOfSimulation + " "
 	argument += "talents=" + talent_selection + " "
 	if args.character_stats:
 		argument += "character_stats.simc "
+	argument += "calculate_scale_factors=0 "
 	argument += gear_mainstat + " "
 	argument += "gear_crit_rating=" + str(crit) + " "
 	argument += "gear_haste_rating=" + str(haste) + " "
@@ -670,6 +667,8 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
 	if args.talent_choosen == "-1":
 		with open(relativePath + "custom_talent_combinations.simc", "r") as f:
 			maxCount = sum(1 for _ in f)
+		if maxCount == 0:
+			print("No talent combination in 'custom_talent_combinations.simc' found. Please add some or use '-t X'.")
 		run = 1
 		with open(relativePath + "custom_talent_combinations.simc", "r") as talent_heap:
 			for line in talent_heap:
