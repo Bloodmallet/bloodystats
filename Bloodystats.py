@@ -385,6 +385,7 @@ def de_func(values, *stuff):
 	argument += char_values + " "
 	argument += "iterations=50000 "
 	argument += "target_error=" + str(base_accuracy / args.accuracy) + " " 
+	argument += "threads=" + args.threads + " "
 	if args.html:
 		argument += "html=" + dateOfSimulation + "_scaling_of_" + args.race_choice + "_" + args.spec_choice + "_" + fight_style + "_" + talent_selection
 		if args.fight_choosen == "-1":
