@@ -17,6 +17,10 @@
 #	to determine secondary stat pool and primary
 #
 # TODO:
+#		param for one single talent combination
+#		add the ability to batch in sim profiles, like how the raid ones are run (You can call a single simc file which contains references to other simc files, which is how you get the raid reports, trinket lists, etc
+#				multi-actor sims, in other words
+#				If I could batch the variations of my arcane APL through that would get me the data I need faster than manually triggering each data point)
 #		tanks?
 # Personal reminder:
 # "Echoes of the Great Sundering"
