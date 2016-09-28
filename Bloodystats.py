@@ -461,7 +461,7 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
 
 	fight_style = "patchwerk"
 
-	char_values = relativePath + "..\\profiles\\Tier19P\\" + args.class_choice + "_" + args.spec_choice + "_T19P.simc"
+	char_values = relativePath + "..\\profiles\\Tier19H\\" + args.class_choice + "_" + args.spec_choice + "_T19H.simc"
 
 	# used for target_error of simc and tol of DE
 	base_accuracy = 0.5
