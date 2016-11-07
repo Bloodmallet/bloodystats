@@ -91,12 +91,12 @@ classdictionary = {	"shaman": 		{"talents": "1001111", "specs": ("elemental", "e
 					"priest": 		{"talents": "1001111", "specs": ("shadow")									},
 					"warlock": 		{"talents": "1101011", "specs": ("affliction", "destruction", "demonology")	},
 					"hunter": 		{"talents": "1101011", "specs": ("mm", "sv", "bm")							},
-					"death_knight":	{"talents": "1111011", "specs": ("unholy", "frost")							},
+					"death_knight":	{"talents": "1110011", "specs": ("unholy", "frost")							},
 					"demon_hunter":	{"talents": "1110111", "specs": ("havoc")									},
 					"monk": 		{"talents": "1010011", "specs": ("windwalker")								},
 					"paladin": 		{"talents": "1101001", "specs": ("retribution")								},
 					"rogue": 		{"talents": "1110111", "specs": ("assassination", "sublety", "outlaw")		},
-					"warrior": 		{"talents": "1110111", "specs": ("arms", "fury")							}}
+					"warrior": 		{"talents": "1010111", "specs": ("arms", "fury")							}}
 
 def checkTalent(talent_combination):
 	for i in range(0, 7):
