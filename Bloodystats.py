@@ -18,12 +18,7 @@
 #
 # TODO:
 #		param for one single talent combination
-#		add the ability to batch in sim profiles, like how the raid ones are run (You can call a single simc file which contains references to other simc files, which is how you get the raid reports, trinket lists, etc
-#				multi-actor sims, in other words
-#				If I could batch the variations of my arcane APL through that would get me the data I need faster than manually triggering each data point)
 #		tanks?
-# Personal reminder:
-# "Echoes of the Great Sundering"
 # How to build:
 # 	use powershell and 
 # 	pyinstaller .\Bloodystats.spec
@@ -343,6 +338,9 @@ def gradient_func(secondary_values, stuff):
 	result = {"talent_selection": simulation_dictionary["talent_selection"], "dps": simdps.split()[1], "crit": gear_crit_rating, "haste": gear_haste_rating, "mastery": gear_mastery_rating, "vers": gear_versatility_rating}
 	return result
 
+##
+# differential evolution (de)
+# function whis is called and uses simc
 def de_func(values, *stuff):
 	crit_factor, haste_factor, mastery_factor, vers_factor = values
 
@@ -432,6 +430,9 @@ def de_func(values, *stuff):
 	print("global " + globPos + " DPS:\t" + simdps.split()[1] + "\t" + str(crit) + "\t" + str(haste) + "\t" + str(mastery) + "\t" + str(vers))
 	return -float(simdps.split()[1])
 
+##
+# function which starts the differential evolution
+# dictionary contains talent_selection and globPos
 def de_call(dictionary):
 	print("Don't worry, be happy. DE Call for " + dictionary["talent_selection"])
 	#twothird = 2 / 3 * basic_secondary_stats_amount
