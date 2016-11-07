@@ -11,7 +11,7 @@ IMPORTANT: Bloodystats calculates either ALL talent combinations you saved in 'c
 2) Usage
 	- open the basic Commandline from Windows by Shift+right clicking inside the 'Bloodystats' directory
 	- enter 'bloodystats.exe <race> <class> <spec>' without '' and < > to use talent combinations from 'custom_talent_combinations.simc' OR
-	- enter 'bloodystats.exe <race> <class> <spec> -t XY' without '' and < > to calculate all talent combinations with Y as the last and X as the second last dps-talent-row-choice. Further examples with actual values can be found int he "Examples" topic.
+	- enter 'bloodystats.exe <race> <class> <spec> -t XY' without '' and < > to calculate all talent combinations with Y as the last and X as the second last dps-talent-row-choice. Further examples with actual values can be found in the "Examples" topic.
 
 
 3) Developer tips
@@ -32,6 +32,6 @@ IMPORTANT: Bloodystats calculates either ALL talent combinations you saved in 'c
 	'bloodystats.exe human mage arcane -t2 -t4' same as first but in addition with the tier 19 set 2 and 4 piece bonus
 
 5) Contact
-	Hit me up on Discord: https://discord.me/earthshrine Channel: #Bloodystats
+	Hit me up on Discord: https://discord.gg/tFR2uvK Channel: #Bloodystats
 	
 	Feedback is highly appreciated!

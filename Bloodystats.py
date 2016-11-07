@@ -13,15 +13,19 @@
 # This program is provided as is. No warranity
 # of any kind is given. Use it at your own risk.
 #
+# TORESEARCH: item budget depending on iLevel,
+#	to determine secondary stat pool and primary
+#
 # TODO:
+#		param for one single talent combination
 #		tanks?
-# Echoes of the Great Sundering
-# To build use powershell and 
-# pyinstaller .\Bloodystats.spec
+# How to build:
+# 	use powershell and 
+# 	pyinstaller .\Bloodystats.spec
 #
 #
 # Questions, ideas? Hit me up on Discord:
-# https://discord.me/earthshrine
+# https://discord.gg/tFR2uvK
 # Channel: #Bloodystats
 #								BloodmalletEU
 ##############################################
@@ -42,7 +46,12 @@ import argparse
 # differential evolution...
 from scipy.optimize import differential_evolution
 
-parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.me/earthshrine #bloodystats -Program calculates best secondary stat distribution for talent combinations using differential evolution for a good start to polish result with gradient method using scale factors. Version:17.08.16")
+
+#-----------------
+# Argument parser
+#-----------------
+
+parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.me/earthshrine #bloodystats -Program calculates best secondary stat distribution for talent combinations. Version:29.08.16")
 parser.add_argument("race_choice", nargs="?", default="dwarf", choices=["dwarf", "gnome", "human", "draenei", "nightelf", "worgen", "pandaren", "orc", "troll", "tauren", "undead", "bloodelf", "goblin"], help="Name of the race")
 parser.add_argument("class_choice", nargs="?", default="shaman", choices=["death_knight", "paladin", "shaman", "hunter", "rogue", "warrior", "demon_hunter", "mage", "warlock", "monk", "druid", "priest"], help="Name of the class of your character")
 parser.add_argument("spec_choice", nargs="?", default="elemental", help="Name of the specialisation of your character")
@@ -59,6 +68,8 @@ parser.add_argument("-se", "--silent_end", dest="silent_end", action="store_cons
 parser.add_argument("-grad", "--gradient_calculation", dest="calculation_type", action="store_const", const="1", default="0", help="Give this option to use gradient calculation to determine best secondary stat distribution. May not find the global maximum but local. Could be faster.")
 parser.add_argument("-+grad", "--additional_grad", dest="additional_grad", action="store_const", const=True, default=False, help="Add this to DE to finalize values with a gradient function. Handy for lower -a")
 parser.add_argument("--delta", dest="deltaValue", nargs="?", default=100, type=int, help="Default: 100; Determines the stepsize of the gradient method (-+grad)")
+parser.add_argument("--tier_number", dest="tier_number", nargs="?", default="19", choices=["19"], help="Determine which basic profile will be used for calculations.")
+parser.add_argument("--tier_difficulty", dest="tier_difficulty", nargs="?", default="M", choices=["P", "H", "M", "M_NH"], help="Determine which basic profile will be used for calculations.")
 
 
 args = parser.parse_args()
@@ -73,14 +84,14 @@ classdictionary = {	"shaman": 		{"talents": "1001111", "specs": ("elemental", "e
 					"mage": 		{"talents": "1011011", "specs": ("fire", "frost", "arcane")					},
 					"druid": 		{"talents": "1000111", "specs": ("balance", "feral")						},
 					"priest": 		{"talents": "1001111", "specs": ("shadow")									},
-					"warlock": 		{"talents": "1001011", "specs": ("affliction", "destruction", "demonology")	},
+					"warlock": 		{"talents": "1101011", "specs": ("affliction", "destruction", "demonology")	},
 					"hunter": 		{"talents": "1101011", "specs": ("mm", "sv", "bm")							},
-					"death_knight":	{"talents": "1111011", "specs": ("unholy", "frost")							},
+					"death_knight":	{"talents": "1110011", "specs": ("unholy", "frost")							},
 					"demon_hunter":	{"talents": "1110111", "specs": ("havoc")									},
 					"monk": 		{"talents": "1010011", "specs": ("windwalker")								},
 					"paladin": 		{"talents": "1101001", "specs": ("retribution")								},
 					"rogue": 		{"talents": "1110111", "specs": ("assassination", "sublety", "outlaw")		},
-					"warrior": 		{"talents": "1110111", "specs": ("arms", "fury")							}}
+					"warrior": 		{"talents": "1010111", "specs": ("arms", "fury")							}}
 
 def checkTalent(talent_combination):
 	for i in range(0, 7):
@@ -157,6 +168,7 @@ def gradient_func(secondary_values, stuff):
 		#argument += "spec=" + args.spec_choice + " "
 		argument += "calculate_scale_factors=1 "
 		argument += "scale_only=crit,haste,mastery,versatility "
+		argument += "scale_strength=320 "
 		#argument += "name=" + nameOfSimulation + " "
 		argument += "talents=" + stuff["talent_selection"] + " "
 		#argument += "apl.simc "
@@ -326,6 +338,9 @@ def gradient_func(secondary_values, stuff):
 	result = {"talent_selection": simulation_dictionary["talent_selection"], "dps": simdps.split()[1], "crit": gear_crit_rating, "haste": gear_haste_rating, "mastery": gear_mastery_rating, "vers": gear_versatility_rating}
 	return result
 
+##
+# differential evolution (de)
+# function whis is called and uses simc
 def de_func(values, *stuff):
 	crit_factor, haste_factor, mastery_factor, vers_factor = values
 
@@ -374,6 +389,7 @@ def de_func(values, *stuff):
 	argument += char_values + " "
 	argument += "iterations=50000 "
 	argument += "target_error=" + str(base_accuracy / args.accuracy) + " " 
+	argument += "threads=" + args.threads + " "
 	if args.html:
 		argument += "html=" + dateOfSimulation + "_scaling_of_" + args.race_choice + "_" + args.spec_choice + "_" + fight_style + "_" + talent_selection
 		if args.fight_choosen == "-1":
@@ -384,13 +400,10 @@ def de_func(values, *stuff):
 	else:
 		argument += "fight_style=" + fight_style + " "
 	argument += "race=" + args.race_choice + " "
-	#argument += args.class_choice + "=Bloodystats "
-	#argument += "spec=" + args.spec_choice + " "
-	argument += "calculate_scale_factors=0 "
-	#argument += "name=" + nameOfSimulation + " "
 	argument += "talents=" + talent_selection + " "
 	if args.character_stats:
 		argument += "character_stats.simc "
+	argument += "calculate_scale_factors=0 "
 	argument += gear_mainstat + " "
 	argument += "gear_crit_rating=" + str(crit) + " "
 	argument += "gear_haste_rating=" + str(haste) + " "
@@ -417,6 +430,9 @@ def de_func(values, *stuff):
 	print("global " + globPos + " DPS:\t" + simdps.split()[1] + "\t" + str(crit) + "\t" + str(haste) + "\t" + str(mastery) + "\t" + str(vers))
 	return -float(simdps.split()[1])
 
+##
+# function which starts the differential evolution
+# dictionary contains talent_selection and globPos
 def de_call(dictionary):
 	print("Don't worry, be happy. DE Call for " + dictionary["talent_selection"])
 	#twothird = 2 / 3 * basic_secondary_stats_amount
@@ -448,7 +464,7 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
 
 	fight_style = "patchwerk"
 
-	char_values = relativePath + "..\\profiles\\Tier19P\\" + args.class_choice + "_" + args.spec_choice + "_T19P.simc"
+	char_values = relativePath + "..\\profiles\\Tier" + args.tier_number + args.tier_difficulty + "\\" + args.class_choice + "_" + args.spec_choice + "_T" + args.tier_number + args.tier_difficulty + ".simc"
 
 	# used for target_error of simc and tol of DE
 	base_accuracy = 0.5
@@ -659,6 +675,8 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
 	if args.talent_choosen == "-1":
 		with open(relativePath + "custom_talent_combinations.simc", "r") as f:
 			maxCount = sum(1 for _ in f)
+		if maxCount == 0:
+			print("No talent combination in 'custom_talent_combinations.simc' found. Please add some or use '-t X'.")
 		run = 1
 		with open(relativePath + "custom_talent_combinations.simc", "r") as talent_heap:
 			for line in talent_heap:
