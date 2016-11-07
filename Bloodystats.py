@@ -30,7 +30,7 @@
 #
 #
 # Questions, ideas? Hit me up on Discord:
-# https://discord.me/earthshrine
+# https://discord.gg/tFR2uvK
 # Channel: #Bloodystats
 #								BloodmalletEU
 ##############################################
@@ -73,6 +73,8 @@ parser.add_argument("-se", "--silent_end", dest="silent_end", action="store_cons
 parser.add_argument("-grad", "--gradient_calculation", dest="calculation_type", action="store_const", const="1", default="0", help="Give this option to use gradient calculation to determine best secondary stat distribution. May not find the global maximum but local. Could be faster.")
 parser.add_argument("-+grad", "--additional_grad", dest="additional_grad", action="store_const", const=True, default=False, help="Add this to DE to finalize values with a gradient function. Handy for lower -a")
 parser.add_argument("--delta", dest="deltaValue", nargs="?", default=100, type=int, help="Default: 100; Determines the stepsize of the gradient method (-+grad)")
+parser.add_argument("--tier_number", dest="tier_number", nargs="?", default="19", choices=["19"], help="Determine which basic profile will be used for calculations.")
+parser.add_argument("--tier_difficulty", dest="tier_difficulty", nargs="?", default="M", choices=["P", "H", "M", "M_NH"], help="Determine which basic profile will be used for calculations.")
 
 
 args = parser.parse_args()
@@ -87,7 +89,7 @@ classdictionary = {	"shaman": 		{"talents": "1001111", "specs": ("elemental", "e
 					"mage": 		{"talents": "1011011", "specs": ("fire", "frost", "arcane")					},
 					"druid": 		{"talents": "1000111", "specs": ("balance", "feral")						},
 					"priest": 		{"talents": "1001111", "specs": ("shadow")									},
-					"warlock": 		{"talents": "1001011", "specs": ("affliction", "destruction", "demonology")	},
+					"warlock": 		{"talents": "1101011", "specs": ("affliction", "destruction", "demonology")	},
 					"hunter": 		{"talents": "1101011", "specs": ("mm", "sv", "bm")							},
 					"death_knight":	{"talents": "1111011", "specs": ("unholy", "frost")							},
 					"demon_hunter":	{"talents": "1110111", "specs": ("havoc")									},
@@ -461,7 +463,7 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
 
 	fight_style = "patchwerk"
 
-	char_values = relativePath + "..\\profiles\\Tier19H\\" + args.class_choice + "_" + args.spec_choice + "_T19H.simc"
+	char_values = relativePath + "..\\profiles\\Tier" + args.tier_number + args.tier_difficulty + "\\" + args.class_choice + "_" + args.spec_choice + "_T" + args.tier_number + args.tier_difficulty + ".simc"
 
 	# used for target_error of simc and tol of DE
 	base_accuracy = 0.5
