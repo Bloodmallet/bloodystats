@@ -17,6 +17,7 @@
 #	to determine secondary stat pool and primary
 #
 # TODO:
+#		Rename variable to_use_underscores insteadOfThisMadeness
 #		param for one single talent combination
 #		tanks?
 # How to build:
