@@ -64,13 +64,14 @@ parser.add_argument("-cs", "--character_stats", action="store_const", const=True
 parser.add_argument("-t2", "--tier_set_bonus2", dest="t2", action="store_const", const=True, default=False, help="Enable T19-2 piece bonus.")
 parser.add_argument("-t4", "--tier_set_bonus4", dest="t4", action="store_const", const=True, default=False, help="Enable T19-4 piece bonus.")
 parser.add_argument("-html", action="store_const", const=True, default=False, help="Enable html output for simulationcraft. (Spam your disk w00p w00p!)" )
-parser.add_argument("-threads", nargs="?", default="", help="Default: max; Provide a number to determine how many threads to use.")
+parser.add_argument("--threads", nargs="?", default="", help="Default: max; Provide a number to determine how many threads to use.")
 parser.add_argument("-se", "--silent_end", dest="silent_end", action="store_const", const=True, default=False, help="Let the program terminate without user input. You wont be able to see how long it took.")
 parser.add_argument("-grad", "--gradient_calculation", dest="calculation_type", action="store_const", const="1", default="0", help="Give this option to use gradient calculation to determine best secondary stat distribution. May not find the global maximum but local. Could be faster.")
 parser.add_argument("-+grad", "--additional_grad", dest="additional_grad", action="store_const", const=True, default=False, help="Add this to DE to finalize values with a gradient function. Handy for lower -a")
 parser.add_argument("--delta", dest="deltaValue", nargs="?", default=100, type=int, help="Default: 100; Determines the stepsize of the gradient method (-+grad)")
 parser.add_argument("--tier_number", dest="tier_number", nargs="?", default="19", choices=["19"], help="Determine which basic profile will be used for calculations.")
 parser.add_argument("--tier_difficulty", dest="tier_difficulty", nargs="?", default="M", choices=["P", "H", "M", "M_NH"], help="Determine which basic profile will be used for calculations.")
+parser.add_argument("-ptr", action="store_const", const=True, default=False, help="Enable ptr calculation for simulationcraft." )
 
 
 args = parser.parse_args()
@@ -151,6 +152,8 @@ def gradient_func(secondary_values, stuff):
 		max_iteration_counter = int(basic_secondary_stats_amount / args.deltaValue) / 4
 	while iteration < max_iteration_counter and searchInProgress:
 		argument = relativePath + "..\\simc.exe "
+		if args.ptr:
+			argument += "ptr=1 "
 		argument += char_values + " "
 		argument += "iterations=10000 "
 		argument += "target_error=0.0 "
@@ -387,6 +390,8 @@ def de_func(values, *stuff):
 	talent_selection, globPos = stuff
 
 	argument = relativePath + "..\\simc.exe "
+	if args.ptr:
+		argument += "ptr=1 "
 	argument += char_values + " "
 	argument += "iterations=50000 "
 	argument += "target_error=" + str(base_accuracy / args.accuracy) + " " 
