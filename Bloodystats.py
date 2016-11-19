@@ -135,6 +135,14 @@ def getValue(string):
 	# Function to get the float value out of one part of the scale row. Example: haste=6.43(0.14)
     return float(string.split("=")[1].split("(")[0])
 
+def getSecondaries(string):
+	# Function to get the right secondaries from file lines
+	# returns a string not float or int
+	if string[-1] == '\n':
+		return string.split("=")[1][:-1]
+	else:
+		return string.split("=")[1]
+
 def gradient_func(secondary_values, stuff):
 	# stuff contains: talent_selection, globPos
 	# stat distribution to start the gradient function
@@ -542,16 +550,16 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
 						gear_mainstat = line
 					print("Grabbed mainstat:" + gear_mainstat)
 			elif "gear_crit_rating=" in line:
-				gear_crit_rating = line.split("=")[1][:-1]
+				gear_crit_rating = getSecondaries(line)
 				print("Grabbed crit: " + gear_crit_rating)
 			elif "gear_haste_rating=" in line:
-				gear_haste_rating = line.split("=")[1][:-1]
+				gear_haste_rating = getSecondaries(line)
 				print("Grabbed haste: " + gear_haste_rating)
 			elif "gear_mastery_rating=" in line:
-				gear_mastery_rating = line.split("=")[1][:-1]
+				gear_mastery_rating = getSecondaries(line)
 				print("Grabbed mastery: " + gear_mastery_rating)
 			elif "gear_versatility_rating=" in line:
-				gear_versatility_rating = line.split("=")[1][:-1]
+				gear_versatility_rating = getSecondaries(line)
 				print("Grabbed versatility: " + gear_versatility_rating)
 	if args.character_stats:
 		print("Trying to grab character_stats.simc input")
@@ -585,16 +593,16 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
 							gear_mainstat = line
 						print("Grabbed mainstat:" + gear_mainstat)
 				elif "gear_crit_rating=" in line:
-					gear_crit_rating = line.split("=")[1][:-1]
+					gear_crit_rating = getSecondaries(line)
 					print("Grabbed crit: " + gear_crit_rating)
 				elif "gear_haste_rating=" in line:
-					gear_haste_rating = line.split("=")[1][:-1]
+					gear_haste_rating = getSecondaries(line)
 					print("Grabbed haste: " + gear_haste_rating)
 				elif "gear_mastery_rating=" in line:
-					gear_mastery_rating = line.split("=")[1][:-1]
+					gear_mastery_rating = getSecondaries(line)
 					print("Grabbed mastery: " + gear_mastery_rating)
 				elif "gear_versatility_rating=" in line:
-					gear_versatility_rating = line.split("=")[1][:-1]
+					gear_versatility_rating = getSecondaries(line)
 					print("Grabbed versatility: " + gear_versatility_rating)
 	basic_secondary_stats_amount = int(gear_crit_rating) + int(gear_versatility_rating) + int(gear_haste_rating) + int(gear_mastery_rating)
 	print("Grabbed secondary stat amount: " + str(basic_secondary_stats_amount))
