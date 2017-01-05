@@ -56,7 +56,7 @@ parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base i
 parser.add_argument("race_choice", nargs="?", default="dwarf", choices=["dwarf", "gnome", "human", "draenei", "nightelf", "worgen", "pandaren", "orc", "troll", "tauren", "undead", "bloodelf", "goblin"], help="Name of the race")
 parser.add_argument("class_choice", nargs="?", default="shaman", choices=["death_knight", "paladin", "shaman", "hunter", "rogue", "warrior", "demon_hunter", "mage", "warlock", "monk", "druid", "priest"], help="Name of the class of your character")
 parser.add_argument("spec_choice", nargs="?", default="elemental", help="Name of the specialisation of your character")
-parser.add_argument("-f", "--fight_type", dest="fight_choosen", nargs="?", default="1", choices=["-1", "1", "2", "3", "4", "5"], help="Default: -1; Choose one of six: <1>Patchwerk, <2>LightMovement, <3>HeavyMovement, <4>Darmac, <5>Helter Skelter, <-1> enables custom_fight_style.simc")
+parser.add_argument("-f", "--fight_type", dest="fight_choosen", nargs="?", default="1", choices=["-1", "1", "2", "3", "4", "5"], help="Default: 1; Choose one of six: <1>Patchwerk, <2>LightMovement, <3>HeavyMovement, <4>Darmac, <5>Helter Skelter, <-1> enables custom_fight_style.simc")
 parser.add_argument("-t", "--talent_combination", dest="talent_choosen", nargs="?", default="-1", choices=["-1", "11", "12", "13", "21", "22", "23", "31", "32", "33"], help="Talentselection of the last two rows. E.g. (12) or (33). (-1) enables custom_talent_combinations.simc")
 # simc target_error=(0.5 /accuracy) and DE tol=(0.5*3/100 / accuracy)
 parser.add_argument("-a", "--accuracy", dest="accuracy", nargs="?", default=10, type=int, help="Default: 10; Increase to increase accuracy of default calculation. Not recommended")
@@ -471,10 +471,10 @@ def de_call(dictionary):
 # global check for validity of input
 if args.class_choice in classdictionary and args.spec_choice in classdictionary[args.class_choice]["specs"]:
 
-	#-------------------
+	#-----------------------------------------------------
 	# Default values
 	# overwritten by user input and .simc files
-	#-------------------
+	#-----------------------------------------------------
 
 	fight_style = "patchwerk"
 
