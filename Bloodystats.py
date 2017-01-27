@@ -36,15 +36,17 @@
 # Import
 #-------------------
 
-# Library to use command line
-import subprocess
+# params
+import argparse
 # Library to get date and calcutiontime for program
 import datetime
 # Library to look for files and create them if needed
 import os
-# params
-import argparse
-# differential evolution...
+# Library to use command line
+import subprocess
+
+
+# differential evolution
 from scipy.optimize import differential_evolution
 
 
