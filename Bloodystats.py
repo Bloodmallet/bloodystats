@@ -174,8 +174,6 @@ def getSecondaries(string):
 ## @return     Dictionary {talent_selection, dps, crit, haste, mastery, vers}
 ##
 def gradient_func(secondary_values, stuff):
-  # stuff contains: talent_selection, globPos
-  # stat distribution to start the gradient function
   gear_crit_rating = secondary_values["crit"]
   gear_haste_rating = secondary_values["haste"]
   gear_mastery_rating = secondary_values["mastery"]
@@ -380,9 +378,6 @@ def gradient_func(secondary_values, stuff):
   result = {"talent_selection": simulation_dictionary["talent_selection"], "dps": simdps.split()[1], "crit": gear_crit_rating, "haste": gear_haste_rating, "mastery": gear_mastery_rating, "vers": gear_versatility_rating}
   return result
 
-##
-# differential evolution (de)
-# function which is called and uses simc
 
 ##
 ## @brief      Get dps value for secondaries
@@ -483,9 +478,6 @@ def de_func(values, *stuff):
   print("global " + globPos + " DPS:\t" + simdps.split()[1] + "\t" + str(crit) + "\t" + str(haste) + "\t" + str(mastery) + "\t" + str(vers))
   return -float(simdps.split()[1])
 
-##
-# function which starts the differential evolution
-# dictionary contains talent_selection and globPos
 
 ##
 ## @brief      Wrapper for differential evolution
