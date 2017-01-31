@@ -9,6 +9,11 @@
 # Read README.txt to install correctly
 #
 # Script is written on and for Windows 10 only.
+# I don't test it on any other system.
+# 
+# Needs:  Python 3.5.3
+#         Numpy
+#         Scipy
 #
 # This program is provided as is. No warranity
 # of any kind is given. Use it at your own risk.
@@ -17,10 +22,8 @@
 #  to determine secondary stat pool and primary
 #
 # TODO:
-#    Rename variable to_use_underscores insteadOfThisMadeness
 #    param for one single talent combination
-#    tanks?
-# How to build:
+# How to build: This information is only relevant for forgetful author himself
 #   use powershell and 
 #   pyinstaller .\Bloodystats.spec
 #
@@ -38,7 +41,7 @@
 
 # params
 import argparse
-# Library to get date and calcutiontime for program
+# Library to get date and calculationtime for program
 import datetime
 # Library to look for files and create them if needed
 import os
@@ -54,7 +57,8 @@ from scipy.optimize import differential_evolution
 # Argument parser
 #-----------------
 
-parser = argparse.ArgumentParser(description="Program from BloodmalletEU. Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.me/earthshrine #bloodystats -Program calculates best secondary stat distribution for talent combinations. Version:29.08.16")
+parser = argparse.ArgumentParser(description="Program of Bloodmallet(EU). Base idea from Binkenstein. Questions, ideas? Hit me up on Discord: https://discord.gg/tFR2uvK #bloodystats -Program calculates best secondary stat distribution for talent combinations. Version:29.08.16")
+
 parser.add_argument("race_choice", nargs="?", default="dwarf", choices=["dwarf", "gnome", "human", "draenei", "nightelf", "worgen", "pandaren", "orc", "troll", "tauren", "undead", "bloodelf", "goblin"], help="Name of the race")
 parser.add_argument("class_choice", nargs="?", default="shaman", choices=["death_knight", "paladin", "shaman", "hunter", "rogue", "warrior", "demon_hunter", "mage", "warlock", "monk", "druid", "priest"], help="Name of the class of your character")
 parser.add_argument("spec_choice", nargs="?", default="elemental", help="Name of the specialisation of your character")
@@ -98,7 +102,7 @@ classdictionary = {  "shaman":     {"talents": "1001111", "specs": ("elemental",
           "warrior":     {"talents": "1010111", "specs": ("arms", "fury")              }}
 
 ##
-## @brief      Validates a talent combination vs dps talent rows
+## @brief      Validates a talent combination vs dps talent rows and -t input
 ##
 ## @param      talent_combination  The talent combination
 ##
@@ -529,37 +533,11 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
   # stats
   basic_secondary_stats_amount = 4
   gear_mainstat = "1"
-  #gear_intellect = 22000
-  #gear_strength = 22000
-  #gear_agility = 22000
   gear_crit_rating = basic_secondary_stats_amount / 4
   gear_haste_rating = basic_secondary_stats_amount / 4
   gear_mastery_rating = basic_secondary_stats_amount / 4
   gear_versatility_rating = basic_secondary_stats_amount / 4
 
-  # talent combination one wants to test
-  #talent_selection = "0000000"
-
-  #-------------------------------------------------------
-  #
-  # Scaning for Files, generating them if nonexistent
-  # if there: getting values
-  #
-  #-------------------------------------------------------
-
-  # TODO: include again?
-  # print("Scanning for required files.")
-  # for filename in sorted(filedictionary.keys()):
-  #   print("Checking " + filename + ".....", end=""),
-  #   if checkForFile(filename):
-  #     print("OK")
-  #   else:
-  #     print("Missing")
-  #     print("Creating " + filename + ".....", end="")
-  #     createFile(filename)
-  #     print("Done")
-  # print("Scanning complete.")
-  # print("------------------------")
   print("Grabbing default values.")
   # Getting Stats from templates
   with open(char_values, "r") as character_stats:
@@ -651,28 +629,7 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
   print("------------------------------")
   print("")
   print("Functionality ensured.")
-  #print("This is BloodmalletEU and you're using my addition to SimulationCraft.")
-  #print("You're about to calculate stat distributions.")
-  #
-  ##----------------------------------------------------------------------
-  ##
-  ## User Interface (not used but printed if provided with enough params)
-  ##
-  ##----------------------------------------------------------------------
-  #
-  #print("")
-  #print("Choose your fight style")
-  #print("<-1> Custom fight. Go crazy creating that in custom_fight_style.simc")
-  #print("<1> Patchwerk (standing still and dealing dps)")
-  #print("<2> LightMovement (...self-explanatory)")
-  #print("<3> HeavyMovement (...self-explanatory)")
-  #print("<4> Beastlord (Movement, frequent Adds spawn and spread Dot)")
-  #print("<5> HelterSkelter (shit just got real-notreal, everything is happening)")
-  #if args.fight_choosen != "-1":
-  #  print("Pre-selected: " + args.fight_choosen)
-  #  fight_choice = args.fight_choosen
-  #else:
-  #  fight_choice = input("Number of fight style without < and >: ")
+
   if args.fight_choosen == "-1":
     fight_style = "custom"
   elif args.fight_choosen == "1":
@@ -685,27 +642,10 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
     fight_style = "Beastlord"
   elif args.fight_choosen == "5":
     fight_style = "HelterSkelter"
-  #print("")
-  #print("Talent combination should be provided as 11, 12, 13, 21 up to 33 representing the chosen talents in the last two dps rows. Every possible talentcombination with your inserted one except for the utility tiers will be calculated. Beware the calculation time...")
-  #
+
   if args.talent_choosen == "-1":
     print("Talent combinations will be read from file.")
-  #elif args.talent_choosen != "-1":
-  #  print("Pre-selected: " + args.talent_choosen)
-  #  talent_choice = args.talent_choosen
-  #else:
-  #  talent_choice = input("Talent combination of the last two dps tiers or -1 to read from custom_talent_combinations.simc: ")
-  #  if talent_choice == "-1":
-  #    args.custom_talent_combinations = True
-  #
-  #-------------------------------------------------------------------
-  #
-  # Simulations
-  # have to switch acconding to talent_combinations (-tc option)
-  # between: a) simulating all given talent combinations 
-  #          b) normal sim for two predefined talent tiers
-  #
-  #-------------------------------------------------------------------
+
 
   print("Starting calculation of best secondary stat distribution.")
   print("Race: " + args.race_choice)
@@ -817,7 +757,6 @@ if args.class_choice in classdictionary and args.spec_choice in classdictionary[
     endsign = input("Press Enter to terminate...")
     print("Aber nu is wirklich Schluss... -_-")
 
-  # simc.exe Bloodystats/simulation_options.simc desired_targets=3 html=simulations/BS.html Bloodystats/character_options.simc calculate_scale_factors=0 scale_only=int,crit,haste,mastery,versatility name=PoF_AS_EF_AfS_LR talents=1002132 Bloodystats/apl.simc Bloodystats/character_stats.simc
 # end of global validity check
 else:
   print("Your input was invalid. Check out your class + spec choice")
