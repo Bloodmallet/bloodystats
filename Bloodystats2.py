@@ -1,3 +1,4 @@
+#!python3
 ###############################################################################
 ##
 ## Bloodystats uses SimulationCraft to get the best secondary stat distribution
@@ -53,6 +54,7 @@ import libraries.simc_checks as simc_checks
 ## Functions
 ##-----------------------------------------------------------------------------
 
+
 ##
 ## @brief      Generates all possible talent combinations
 ##
@@ -75,7 +77,45 @@ def generate_talent_input():
   return talents
 
 
-def sim_dps(talent_combination, crit, haste, mastery, versatility):
+##
+## @brief      Determines if talent input from user is in valid form.
+##
+## @param      talent_combination  The talent combination
+##
+## @return     True if talent input is valid, False otherwise.
+##
+def is_talent_input(talent_combination):
+  if not type(talent_combination) is str:
+    return False
+  if talent_combination is "":
+    return True
+  if len(talent_combination) == 2 or len(talent_combination) == 7:
+    for letter in talent_combination:
+      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3" or letter is "-"):
+        return False
+    return True
+  elif len(talent_combination) % 2 == 0:
+    for i in range(0, len(talent_combination)):
+      if (i + 1) % 2 == 1 and not int(talent_combination[i]) in range(1,8):
+        return False
+      elif not int(talent_combination[i]) in range(0,4):
+        return False
+    return True
+  else:
+    return False
+
+##
+## @brief      Calls SimulationCraft to get dps value.
+##
+## @param      talent_combination  The talent combination
+## @param      crit                The crit rating
+## @param      haste               The haste rating
+## @param      mastery             The mastery rating
+## @param      versatility         The versatility rating
+##
+## @return     DPS as s, "-1" if error
+##
+def sim_dps(talent_combination, crit_rating, haste_rating, mastery_rating, versatility_rating):
   argument = "../simc.exe "
 
   if args.ptr:
@@ -102,7 +142,24 @@ def sim_dps(talent_combination, crit, haste, mastery, versatility):
   if args.custom_fight_style:
     argument += "custom_fight_style.simc "
 
+  argument += "gear_crit_rating=" + crit_rating + " "
+  argument += "gear_haste_rating=" + haste_rating + " "
+  argument += "gear_mastery_rating=" + mastery_rating + " "
+  argument += "gear_versatility_rating=" + versatility_rating " "
 
+  if args.tier_set_bonus_2:
+    argument += "set_bonus=tier" + args.tier_number + "_2pc=1 "
+  if args.tier_set_bonus_4:
+    argument += "set_bonus=tier" + args.tier_number + "_4pc=1 "
+
+  simulation = subprocess.run(argument, stdout=subprocess.PIPE, universal_newlines=True)
+  owndps = True
+  dps = "-1"
+  for line in simulation.stdout.splitlines():
+    if "DPS:" in line and owndps:
+      owndps = False
+      dps = line.split()[1]
+  return dps
 
 
 
@@ -158,12 +215,10 @@ parser.add_argument(
   default=settings.wow_spec, 
   help="Name of the specialisation of your character." )
 parser.add_argument(
-  "-talents", 
+  "-t", "--talents", 
   nargs="?", 
-  default=settings.talents, 
-  choices=generate_talent_input(), 
+  default=settings.talents,
   help="Talentselection of the last two rows or full. E.g. 12 or 33 vs 2112332. Empty enables custom_talent_combinations.simc." )
-
 parser.add_argument(
   "-p", "--profile", 
   nargs="?", 
