@@ -73,6 +73,19 @@ def is_iteration(iterations):
 
 
 ##
+## @brief      Determines if profile.
+##
+## @param      profile  The profile
+##
+## @return     True if profile, False otherwise.
+##
+def is_profile(profile):
+  if profile in get_profiles():
+    return True
+  return False
+
+
+##
 ## @brief      Determines if target error is string and < 0.5 and >= 0.0.
 ##
 ## @param      target_error  The target error
@@ -84,4 +97,31 @@ def is_target_error(target_error):
   if type(target_error) is str:
     if 0.5 > float(target_error) >= 0.0:
       return True
+  return False
+
+
+##
+## @brief      Determines if threads.
+##
+## @param      threads  The threads
+##
+## @return     True if threads, False otherwise.
+##
+def is_threads(threads):
+  if type(threads) == str:
+    if threads == "" or int(threads) > 0:
+      return True
+  return False
+
+
+##
+## @brief      Determines if tier number.
+##
+## @param      tier_number  The tier number
+##
+## @return     True if tier number, False otherwise.
+##
+def is_tier_number(tier_number):
+  if tier_number in get_tiers():
+    return True
   return False
