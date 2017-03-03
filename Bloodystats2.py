@@ -14,9 +14,10 @@
 ##         Scipy
 ##
 ## This program is provided as is. No warranity of any kind is given. Use it at
-##  your own risk.
+## your own risk.
 ##
-## How to build: This information is only relevant for forgetful author himself
+## How to build: (this information is only relevant for the forgetful author 
+## himself)
 ##   use powershell and 
 ##   pyinstaller .\Bloodystats.spec
 ##
@@ -56,7 +57,21 @@ import libraries.simc_checks as simc_checks
 
 
 ##
-## @brief      Generates all possible talent combinations
+## @brief      Gets the secondaries.
+##
+## @param      string  The string
+##
+## @return     The secondaries as int.
+##
+def __grab_secondaries(string):
+  if string[-1] == '\n':
+    return int(string.split("=")[1][:-1])
+  else:
+    return int(string.split("=")[1])
+
+
+##
+## @brief      Generates all possible talent combinations for simc
 ##
 ## @return     List of all possible talent combinations
 ##
@@ -78,7 +93,29 @@ def generate_talent_input():
 
 
 ##
-## @brief      Determines if talent input from user is in valid form.
+## @brief      Gets the secondary ratings from profile or
+##             custom_character_stats.simc.
+##
+## @return     The secondary ratings as int.
+##
+def get_secondary_ratings():
+  amount = 0
+  path = "../profiles/Tier"
+  path += args.profile[1:] + "/"
+  path += args.wow_class   + "_"
+  path += args.wow_spec    + "_"
+  path += args.profile     + ".simc"
+  if args.custom_character_stats:
+    path = "custom_character_stats.simc"
+  with open(path, "r") as char_values:
+    for line in char_values:
+      if "gear_crit_rating=" in line or "gear_haste_rating=" in line or "gear_mastery_rating=" in line or "gear_versatility_rating=" in line:
+        amount += __grab_secondaries(line)
+  return amount
+
+
+##
+## @brief      Determines if talent input from user is in a valid format.
 ##
 ## @param      talent_combination  The talent combination
 ##
@@ -91,7 +128,7 @@ def is_talent_input(talent_combination):
     return True
   if len(talent_combination) == 2 or len(talent_combination) == 7:
     for letter in talent_combination:
-      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3" or letter is "-"):
+      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3" or letter is "-" or letter is "x"):
         return False
     return True
   elif len(talent_combination) % 2 == 0:
@@ -108,10 +145,10 @@ def is_talent_input(talent_combination):
 ## @brief      Calls SimulationCraft to get dps value.
 ##
 ## @param      talent_combination  The talent combination
-## @param      crit                The crit rating
-## @param      haste               The haste rating
-## @param      mastery             The mastery rating
-## @param      versatility         The versatility rating
+## @param      crit_rating         The crit rating
+## @param      haste_rating        The haste rating
+## @param      mastery_rating      The mastery rating
+## @param      versatility_rating  The versatility rating
 ##
 ## @return     DPS as s, "-1" if error
 ##
@@ -198,33 +235,35 @@ parser.add_argument(
 
 ## Char settings
 parser.add_argument(
-  "-class", 
+  "--class", 
   nargs="?", 
   default=settings.wow_class, 
-  choices=wow_lib.get_classes(), 
+  choices=wow_lib.get_classes(),
+  dest="wow_class",
   help="Name of the class of your character." )
 parser.add_argument(
-  "-race", 
+  "--race", 
   nargs="?", 
   default=settings.wow_race, 
   choices=wow_lib.get_races(), 
   help="Name of the race." )
 parser.add_argument(
-  "-spec", 
+  "--spec", 
   nargs="?", 
   default=settings.wow_spec, 
+  dest="wow_spec",
   help="Name of the specialisation of your character." )
 parser.add_argument(
-  "-t", "--talents", 
+  "--talents", 
   nargs="?", 
   default=settings.talents,
-  help="Talentselection of the last two rows or full. E.g. 12 or 33 vs 2112332. Empty enables custom_talent_combinations.simc." )
+  help="Talentselection of the last two rows or full. E.g. 12 vs 2112332 vs 2----12 vs 2xxxxx12. Empty enables custom_talent_combinations.simc. For further information please read the README.TXT" )
 parser.add_argument(
-  "-p", "--profile", 
-  nargs="?", 
-  default=settings.profile, 
-  choices=simc_checks.get_profiles(), 
-  help="Determines which basic profile will be used for calculations." )
+  "--profile",
+  nargs="?",
+  default=settings.profile,
+  choices=simc_checks.get_profiles(),
+  help="Determines which basic profile will be used for calculations. (example: 19M_NH)" )
 parser.add_argument(
   "-t2", 
   "--tier_set_bonus_2", 
@@ -258,14 +297,14 @@ parser.add_argument(
   nargs="?", 
   default=settings.fight_type, 
   choices=simc_checks.get_fight_styles(), 
-  help="Decides uppon the fight type. Will be overwritten by -cfs." )
+  help="Decides uppon the fight type. -cfs has a higher priority." )
 parser.add_argument(
   "-i", 
   "--iterations", 
   nargs="?", 
   default=settings.iterations, 
-  choices=["5000", "7500", "10000", "12500", "15000", "17500", "20000", "25000", "50000", "250000"], 
-  help="SimulationCraft maximum iterarions." )
+  choices=["5000", "7500", "10000", "12500", "15000", "25000", "50000", "250000", "500000"], 
+  help="SimulationCraft maximum iterations." )
 parser.add_argument(
   "--target_error", 
   nargs="?", 
@@ -285,4 +324,12 @@ parser.add_argument(
   help="Enable ptr calculation for SimulationCraft." )
 
 args = parser.parse_args()
+
+
+
+
+
+##-----------------------------------------------------------------------------
+## Program start
+##-----------------------------------------------------------------------------
 
