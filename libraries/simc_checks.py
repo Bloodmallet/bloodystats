@@ -37,7 +37,8 @@ def get_profiles():
 ##
 def get_tiers():
   return (
-    "19", )
+    "19",
+    "20" )
 
 
 ##
@@ -50,7 +51,7 @@ def get_tiers():
 def is_fight_style(fight_style):
   fight_style_list = get_fight_styles()
   if type(fight_style) is str:
-    if fight_style in fight_style_list:
+    if fight_style.lower() in fight_style_list:
         return True
   return False
 
