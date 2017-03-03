@@ -71,6 +71,162 @@ def __grab_secondaries(string):
 
 
 ##
+## @brief      Checks validity of input (args)
+##
+## @return     True if data is fine.
+##
+def is_input():
+  print("Ensuring data isn't corrupted.")
+  load_errors = 0
+  print("Bloodystats settings:")
+  print("custom_character_stats\t\t", end="")
+  if type(args.custom_character_stats) == bool:
+    if args.custom_character_stats:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("custom_fight_style\t\t", end="")
+  if type(args.custom_fight_style) == bool:
+    if args.custom_fight_style:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("html\t\t", end="")
+  if type(args.html) == bool:
+    if args.html:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("silent_end\t\t", end="")
+  if type(args.silent_end) == bool:
+    if args.silent_end:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("Char settings:")
+  print("wow_class\t\t", end="")
+  if wow_lib.is_class(args.wow_class):
+    print(args.wow_class)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("wow_race\t\t", end="")
+  if wow_lib.is_race(args.wow_race):
+    print(args.wow_race)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("wow_spec\t\t", end="")
+  if wow_lib.is_spec(args.wow_spec):
+    print(args.wow_spec)
+  else:
+    print("corrupted")
+    load_errors += 1
+  if not wow_lib.is_class_spec(args.wow_race):
+    print("The combination of wow_class and wow_spec is not valid.")
+  print("talents\t\t", end="")
+  if is_talent_combination(args.talent_combination):
+    print(args.talent_combination)
+  else:
+    print("corrupted")
+    load_errors += 1
+  if not wow_lib.is_class_spec(args.wow_race):
+  print("profile\t\t", end="")
+  if simc_checks.is_profile(args.profile):
+    print(args.wow_spec)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("tier_set_bonus_2\t\t", end="")
+  if type(args.tier_set_bonus_2) == bool:
+    if args.tier_set_bonus_2:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("tier_set_bonus_4\t\t", end="")
+  if type(args.tier_set_bonus_4) == bool:
+    if args.tier_set_bonus_4:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("tier_set_number\t\t", end="")
+  if simc_checks.is_tier_number(args.tier_set_number):
+    print(args.tier_set_number)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("")
+  print("SimulationCraft settings:")
+  print("default_actions\t\t", end="")
+  if type(args.default_actions) == bool:
+    if args.default_actions:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("fight_style\t\t", end="")
+  if simc_checks.is_fight_style(args.fight_style):
+    print(args.fight_style)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("iterations\t\t", end="")
+  if simc_checks.is_iteration(args.iterations):
+    print(args.iterations)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("target_error\t\t", end="")
+  if simc_checks.is_target_error(args.target_error):
+    print(args.target_error)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("threads\t\t", end="")
+  if simc_checks.is_threads(args.threads):
+    if args.threads == "":
+      print("all")
+    else:
+      print(args.threads)
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("ptr\t\t", end="")
+  if type(args.default_actions) == bool:
+    if args.default_actions:
+      print("forced on")
+    else:
+      print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  if load_errors > 0:
+    return False
+  else:
+    return True
+
+
+##
 ## @brief      Generates all possible talent combinations for simc
 ##
 ## @return     List of all possible talent combinations
@@ -121,25 +277,32 @@ def get_secondary_ratings():
 ##
 ## @return     True if talent input is valid, False otherwise.
 ##
-def is_talent_input(talent_combination):
+def is_talent_combination(talent_combination):
   if not type(talent_combination) is str:
     return False
   if talent_combination is "":
     return True
-  if len(talent_combination) == 2 or len(talent_combination) == 7:
+  if len(talent_combination) == 7:
     for letter in talent_combination:
       if not (letter is "0" or letter is "1" or letter is "2" or letter is "3" or letter is "-" or letter is "x"):
         return False
     return True
-  elif len(talent_combination) % 2 == 0:
-    for i in range(0, len(talent_combination)):
-      if (i + 1) % 2 == 1 and not int(talent_combination[i]) in range(1,8):
-        return False
-      elif not int(talent_combination[i]) in range(0,4):
+  elif len(talent_combination) == 2:
+    for letter in talent_combination:
+      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3"):
         return False
     return True
+  # Would've been for talent combinations that set certain rows to a value without declaring anything else. Like 42 would set the forth row to the second talent. 4253 would set 4. row to 2 and 5. to 3
+  #elif len(talent_combination) % 2 == 0:
+  #  for i in range(0, len(talent_combination)):
+  #    if (i + 1) % 2 == 1 and not int(talent_combination[i]) in range(1,8):
+  #      return False
+  #    elif not int(talent_combination[i]) in range(0,4):
+  #      return False
+  #  return True
   else:
     return False
+
 
 ##
 ## @brief      Calls SimulationCraft to get dps value.
@@ -245,7 +408,8 @@ parser.add_argument(
   "--race", 
   nargs="?", 
   default=settings.wow_race, 
-  choices=wow_lib.get_races(), 
+  choices=wow_lib.get_races(),
+  dest="wow_race"
   help="Name of the race." )
 parser.add_argument(
   "--spec", 
@@ -293,11 +457,11 @@ parser.add_argument(
   default=settings.default_actions, 
   help="Enable default_actions for SimulationCraft." )
 parser.add_argument(
-  "-f", "--fight_type", 
+  "-f", "--fight_style", 
   nargs="?", 
-  default=settings.fight_type, 
+  default=settings.fight_style,
   choices=simc_checks.get_fight_styles(), 
-  help="Decides uppon the fight type. -cfs has a higher priority." )
+  help="Decides uppon the fight style. -cfs has a higher priority." )
 parser.add_argument(
   "-i", 
   "--iterations", 
@@ -333,3 +497,21 @@ args = parser.parse_args()
 ## Program start
 ##-----------------------------------------------------------------------------
 
+print("Welcome to Bloodystats")
+print("A project of Bloodmallet(EU)")
+print("----------------------------")
+if not is_input():
+  sys.exit("Encountered corrupted data.")
+print("Getting secondary ratings\t\t", end="")
+secondaries_amount = 0
+secondaries_amount = get_secondary_ratings()
+if secondaries_amount == 0:
+  print("corrupted")
+  sys.exit("No secondaries were found. Program is shutting down.")
+
+simulation_start = datetime.datetime.now()
+base_name = "{:%Y_%m_%d_}".format(datetime.datetime.now())
+base_name += args.fight_style + "_"
+base_name += args.wow_class + "_"
+base_name += args.wow_spec + "_"
+base_name += args.wow_race
