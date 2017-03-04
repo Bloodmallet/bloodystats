@@ -13,7 +13,8 @@ def get_fight_styles():
     "heavymovement", 
     "hecticaddcleave", 
     "beastlord", 
-    "helterskelter" )
+    "helterskelter"
+  )
 
 
 ##
@@ -27,7 +28,8 @@ def get_profiles():
     "T19H",
     "T19H_NH",
     "T19M",
-    "T19M_NH" )
+    "T19M_NH"
+  )
 
 
 ##
@@ -38,7 +40,8 @@ def get_profiles():
 def get_tiers():
   return (
     "19",
-    "20" )
+    "20"
+  )
 
 
 ##
