@@ -5,6 +5,7 @@ __classes_data = {
   "death_knight": {
     "talents": "1110011",
     "specs": {
+      "blood":  { "role": "melee", "stat": "str" },
       "frost":  { "role": "melee", "stat": "str" },
       "unholy": { "role": "melee", "stat": "str" }
     }
@@ -12,14 +13,16 @@ __classes_data = {
   "demon_hunter": {
     "talents": "1110111",
     "specs": {
-      "havoc": { "role": "melee", "stat": "agi" }
+      "havoc":    { "role": "melee", "stat": "agi" },
+      "vengance": { "role": "melee", "stat": "agi" }
     }
   },
   "druid": {
     "talents": "1000111",
     "specs": { 
-      "balance": { "role": "ranged", "stat": "int" },
-      "feral":   { "role": "melee",  "stat": "agi" }
+      "balance":  { "role": "ranged", "stat": "int" },
+      "feral":    { "role": "melee",  "stat": "agi" },
+      "guardian": { "role": "melee",  "stat": "agi" }
     }
   },
   "hunter": {
@@ -41,12 +44,14 @@ __classes_data = {
   "monk": {
     "talents": "1010011",
     "specs": {
+      "brewmaster": { "role": "melee", "stat": "agi" },
       "windwalker": { "role": "melee", "stat": "agi" }
     }
   },
   "paladin": {
     "talents": "1101001",
     "specs": {
+      "protection":  { "role": "melee", "stat": "str" },
       "retribution": { "role": "melee", "stat": "str" }
     }
   },
@@ -82,30 +87,31 @@ __classes_data = {
   "warrior": {
     "talents": "1010111",
     "specs": {
-      "arms": { "role": "melee", "stat": "str" },
-      "fury": { "role": "melee", "stat": "str" }
+      "arms":       { "role": "melee", "stat": "str" },
+      "fury":       { "role": "melee", "stat": "str" },
+      "protection": { "role": "melee", "stat": "str" }
     }
   }
 }
 
 __races = {
   "alliance": {
-    "draenei": (),
-    "dwarf": (),
-    "gnome": (),
-    "human": (),
+    "draenei":  (),
+    "dwarf":    (),
+    "gnome":    (),
+    "human":    (),
     "nightelf": (),
     "pandaren": (),
-    "worgen": ()
+    "worgen":   ()
   },
   "horde": {
     "bloodelf": (),
-    "goblin": (),
-    "orc": (),
+    "goblin":   (),
+    "orc":      (),
     "pandaren": (),
-    "tauren": (),
-    "troll": (),
-    "undead": ()
+    "tauren":   (),
+    "troll":    (),
+    "undead":   ()
   }
 }
 
