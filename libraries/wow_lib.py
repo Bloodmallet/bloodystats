@@ -28,9 +28,9 @@ __classes_data = {
   "hunter": {
     "talents": "1101011",
     "specs": {
-      "bm": { "role": "ranged", "stat": "agi" },
-      "mm": { "role": "ranged", "stat": "agi" },
-      "sv": { "role": "melee",  "stat": "agi" }
+      "beast_mastery": { "role": "ranged", "stat": "agi" },
+      "marksmanship":  { "role": "ranged", "stat": "agi" },
+      "survival":      { "role": "melee",  "stat": "agi" }
     }
   },
   "mage": {
