@@ -72,9 +72,12 @@ def __generate_talent_combinations(blueprint):
   if not ("x" in blueprint or "-" in blueprint):
     return [blueprint]
   data_talents = wow_lib.get_dps_talents(args.wow_class)
+  pattern = ""
   for i in range(0, 7):
     if (blueprint[i] == "-" or blueprint[i] == "x") and data_talents[i] == "0":
-      blueprint[i] = "0"
+      pattern += "0"
+    else:
+      pattern += blueprint[i]
   combinations = []
   for first in range(4):
     for second in range(4):
@@ -86,9 +89,9 @@ def __generate_talent_combinations(blueprint):
                 combination = str(first) + str(second) + str(third) + str(forth) + str(fivth) + str(sixth) + str(seventh)
                 add_it = True
                 for i in range(7):
-                  if (not (blueprint[i] == "-" or blueprint[i] == "x")) and not combination[i] == blueprint[i]:
+                  if (not (pattern[i] == "-" or pattern[i] == "x")) and not combination[i] == pattern[i]:
                     add_it = False
-                  if combination[i] == "0" and (blueprint[i] == "-" or blueprint[i] == "x"):
+                  if combination[i] == "0" and (pattern[i] == "-" or pattern[i] == "x"):
                     add_it = False
                 if add_it:
                   combinations += [combination]
@@ -545,8 +548,6 @@ parser.add_argument(
   help="Enable ptr calculation for SimulationCraft." )
 
 args = parser.parse_args()
-
-
 
 
 
