@@ -147,6 +147,12 @@ def is_input():
   print("Ensuring data isn't corrupted.")
   load_errors = 0
   print("Bloodystats settings:")
+  print("calculation_method\t\t", end="")
+  if calculation_manager.is_calculation_method(args.calculation_method):
+    print(args.calculation_method)
+  else:
+    print("corrupted")
+    load_errors += 1
   print("custom_character_stats\t\t", end="")
   if type(args.custom_character_stats) == bool:
     if args.custom_character_stats:
@@ -174,12 +180,13 @@ def is_input():
   else:
     print("corrupted")
     load_errors += 1
-  print("calculation_method\t\t", end="")
-  if calculation_manager.is_calculation_method(args.calculation_method):
-    print(args.calculation_method)
-  else:
-    print("corrupted")
-    load_errors += 1
+  print("output\t\t", end="")
+  for method in args.output:
+    if output_manager.is_output(method):
+      print(method + " ", end="")
+    else:
+      print("corrupted")
+      load_errors += 1
   print("silent_end\t\t", end="")
   if type(args.silent_end) == bool:
     if args.silent_end:
