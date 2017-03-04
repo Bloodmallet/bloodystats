@@ -6,9 +6,11 @@
 
 
 # Bloodystats settings:
+calculation_method = "differential_evolution"
 custom_character_stats = False
 custom_fight_style = False
 html = False
+output = ["txt"]
 silent_end = False              # terminates without user input
 
  
