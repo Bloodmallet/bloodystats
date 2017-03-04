@@ -1,6 +1,7 @@
 #!python3
 import subprocess
 
+
 ##
 ## @brief      Calls SimulationCraft to get dps value.
 ##
@@ -40,6 +41,10 @@ def sim_dps(args, talent_combination, crit_rating, haste_rating, mastery_rating,
 
   if args.custom_fight_style:
     argument += "custom_fight_style.simc "
+
+  argument += "default_skill=1.0 "
+  argument += "calculate_scale_factors=0 "
+  argument += "log=0 "
 
   argument += "gear_crit_rating=" + str(crit_rating) + " "
   argument += "gear_haste_rating=" + str(haste_rating) + " "

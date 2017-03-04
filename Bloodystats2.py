@@ -38,9 +38,10 @@ import argparse
 ## Library to get date and calculationtime for program
 import datetime
 ## Library to look for files and create them if needed
-import os
+# import os
 ## Settings of bloodystats
 import settings
+import sys
 
 ## Library with general wow information
 import libraries.wow_lib as wow_lib
@@ -590,9 +591,10 @@ args.base_name += args.wow_race
 result_list = []
 for talent_combination in talent_combinations:
   result_list.append(calculation_manager.calculation_manager(args, talent_combination))
-  print("Result for: " + talent_combination)
+  print("Result: " + talent_combination + "\t", end="")
   print(result_list[-1][1] + "\t\t" + result_list[-1][2] + "\t\t" + result_list[-1][3] + "\t\t" + result_list[-1][4] + "\t\t" + result_list[-1][5])
   args.current_combination_count += 1
+  print("")
 simulation_end = datetime.datetime.now()
 print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")

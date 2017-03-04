@@ -98,7 +98,7 @@ def is_profile(profile):
 ##
 def is_target_error(target_error):
   if type(target_error) is str:
-    if 0.5 > float(target_error) >= 0.0:
+    if 0.5 >= float(target_error) >= 0.0:
       return True
   return False
 

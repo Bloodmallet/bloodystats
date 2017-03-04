@@ -9,11 +9,11 @@ import libraries.methods.sim_it as sim_it
 ## @return     List of four secondary values as strings
 ##
 def normalize(args, values):
-  crit, haste, mastery, vers = values
   manipulator = values[0] + values[1] + values[2] + values[3]
-
-  if manipulator == 0.0:
-    manipulator == 1.0
+  if not manipulator > 0.0:
+    for i in range(0, 4):
+      values[i] = str(args.secondaries_amount / 4.0)
+    return values
 
   for i in range(0, 4):
     values[i] = values[i] / manipulator
@@ -32,8 +32,10 @@ def normalize(args, values):
           else:
             values[j] += overflow * values[j] / fractional_sum
       values[i] = 2.0 / 3.0
+  temp = 0.0
   for i in range(0, 4):
-    values[i] = str(int(values[i] * args.secondaries_amount))
+    temp = values[i] * args.secondaries_amount
+    values[i] = str(int(temp.item()))
   return values
 
 
@@ -50,7 +52,7 @@ def __differential_evolution_catcher(bounds, *arguments):
   crit, haste, mastery, vers = normalize(args, bounds)
   dps = sim_it.sim_dps(args, talent_combination, crit, haste, mastery, vers)
   # TODO: Add and option to hide/show this
-  print(str(args.current_combination_count) + "/" + str(args.combination_count) + "\t" + talent_combination + "\t\t" + str(dps) + "\t\t" + str(int(crit.item())) + "\t" + str(int(haste.item())) + "\t" + str(int(mastery.item())) + "\t" + str(int(vers.item())))
+  print("  " + str(args.current_combination_count) + "/" + str(args.combination_count) + "\t" + talent_combination + "\t\t" + str(dps) + "\t\t" + str(int(crit.item())) + "\t" + str(int(haste.item())) + "\t" + str(int(mastery.item())) + "\t" + str(int(vers.item())))
   return -dps
 
 
@@ -69,21 +71,21 @@ def differential_evolution_wrapper(args, talent_combination):
     (0, args.secondaries_amount)
   ]
   arguments = (args, talent_combination)
-  print("Pos\tTalents\t\tDPS\t\tCrit\tHaste\tMastery\tVersatility")
+  print("  Pos\tTalents\t\tDPS\t\tCrit\tHaste\tMastery\tVersatility")
   ## TODO: Might have to recheck tol here!
   result = differential_evolution(
     __differential_evolution_catcher, 
     bounds, 
     args=arguments, 
     maxiter=15, 
-    tol=(float(args.target_error)), 
+    tol=(float(args.target_error) / 10.0), 
     seed=args.secondaries_amount, 
     disp=True
   )
   crit, haste, mastery, vers = normalize(args, [result.x[0], result.x[1], result.x[2], result.x[3]])
   return (
     talent_combination,
-    str(-result.fun),
+    str(int(-result.fun)),
     str(crit),
     str(haste),
     str(mastery),
