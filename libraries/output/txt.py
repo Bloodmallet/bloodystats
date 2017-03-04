@@ -1,6 +1,6 @@
 #!python3
 
-def text_output(file_name, results):
+def txt_output(file_name, results):
   with open(file_name + ".txt", "a") as file:
     # TODO: Maybe add simulation values...
     for result in results:

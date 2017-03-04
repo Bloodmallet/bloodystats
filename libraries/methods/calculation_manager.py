@@ -16,7 +16,7 @@ def is_calculation_method(method):
   return False
 
 
-def calculation_manager(talent_combination):
+def calculation_manager(args, talent_combination):
   package = (
     talent_combination,
     "0",
@@ -26,5 +26,5 @@ def calculation_manager(talent_combination):
     "0"
   )
   if args.calculation_method == "differential_evolution":
-    package = differential_evolution_wrapper(talent_combination)
+    package = differential_evolution_wrapper(args, talent_combination)
   return package

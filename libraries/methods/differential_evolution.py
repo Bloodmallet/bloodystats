@@ -1,5 +1,5 @@
 from scipy.optimize import differential_evolution
-
+import libraries.methods.sim_it as sim_it
 
 ##
 ## @brief      Normalizes four values (so their addition results in secondaries_amount)
@@ -8,7 +8,7 @@ from scipy.optimize import differential_evolution
 ##
 ## @return     List of four secondary values as strings
 ##
-def normalize(values):
+def normalize(args, values):
   crit, haste, mastery, vers = values
   manipulator = values[0] + values[1] + values[2] + values[3]
 
@@ -33,7 +33,7 @@ def normalize(values):
             values[j] += overflow * values[j] / fractional_sum
       values[i] = 2.0 / 3.0
   for i in range(0, 4):
-    values[i] = str(int(values[i] * secondaries_amount))
+    values[i] = str(int(values[i] * args.secondaries_amount))
   return values
 
 
@@ -45,12 +45,13 @@ def normalize(values):
 ##
 ## @return     negative dps
 ##
-def __differential_evolution_catcher(bounds, *talent_combination):
-  crit, haste, mastery, vers = normalize(bounds)
-  dps = sim_dps(talent_combination, crit, haste, mastery, vers)
+def __differential_evolution_catcher(bounds, *arguments):
+  args, talent_combination = arguments
+  crit, haste, mastery, vers = normalize(args, bounds)
+  dps = sim_it.sim_dps(args, talent_combination, crit, haste, mastery, vers)
   # TODO: Add and option to hide/show this
-  print(str(current_combination_count) + "/" + str(combination_count) + "\t" + talent_combination + "\t" + dps + "\t" + crit + "\t" + haste + "\t" + mastery + "\t" + vers)
-  return -float(dps)
+  print(str(args.current_combination_count) + "/" + str(args.combination_count) + "\t" + talent_combination + "\t\t" + str(dps) + "\t\t" + str(int(crit.item())) + "\t" + str(int(haste.item())) + "\t" + str(int(mastery.item())) + "\t" + str(int(vers.item())))
+  return -dps
 
 
 ##
@@ -60,22 +61,23 @@ def __differential_evolution_catcher(bounds, *talent_combination):
 ##
 ## @return     Touple (talent_combination, dps, crit, haste, mastery, vers) all as s
 ##
-def differential_evolution_wrapper(talent_combination):
+def differential_evolution_wrapper(args, talent_combination):
   bounds = [
-    (0, secondaries_amount),
-    (0, secondaries_amount),
-    (0, secondaries_amount),
-    (0, secondaries_amount)
+    (0, args.secondaries_amount),
+    (0, args.secondaries_amount),
+    (0, args.secondaries_amount),
+    (0, args.secondaries_amount)
   ]
-  arguments = (talent_combination)
+  arguments = (args, talent_combination)
+  print("Pos\tTalents\t\tDPS\t\tCrit\tHaste\tMastery\tVersatility")
   ## TODO: Might have to recheck tol here!
   result = differential_evolution(
     __differential_evolution_catcher, 
     bounds, 
     args=arguments, 
     maxiter=15, 
-    tol=(double(args.target_error)), 
-    seed=secondaries_amount, 
+    tol=(float(args.target_error)), 
+    seed=args.secondaries_amount, 
     disp=True
   )
   return (
