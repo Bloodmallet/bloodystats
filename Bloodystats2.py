@@ -593,8 +593,10 @@ for talent_combination in talent_combinations:
   print("Result for: " + talent_combination)
   print(result_list[-1][1] + "\t\t" + result_list[-1][2] + "\t\t" + result_list[-1][3] + "\t\t" + result_list[-1][4] + "\t\t" + result_list[-1][5])
   args.current_combination_count += 1
+simulation_end = datetime.datetime.now()
+print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")
-if output_manager(args, result_list):
+if output_manager.output_manager(args, result_list):
   print("Output sucessfull.")
 else:
   print("Output failed.")
