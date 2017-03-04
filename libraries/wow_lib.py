@@ -199,6 +199,19 @@ def is_class(wow_class):
 
 
 ##
+## @brief      Determines if race.
+##
+## @param      race  The race
+##
+## @return     True if race, False otherwise.
+##
+def is_race(race):
+  if race in get_races():
+    return True
+  return False
+
+
+##
 ## @brief      Determines if specis of class.
 ##
 ## @param      wow_spec   The specifier name
