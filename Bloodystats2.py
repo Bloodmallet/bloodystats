@@ -46,14 +46,82 @@ import subprocess
 
 ## Library with general wow information
 import libraries.wow_lib as wow_lib
+## Library with simc values and checks
 import libraries.simc_checks as simc_checks
 
+## Function which manages all available calculation functions
+from libraries.methods.calculation_manager import calculation_manager
+## Function which manages all available ouput functions
+from libraries.output import output_manager
 
 
 
 ##-----------------------------------------------------------------------------
 ## Functions
 ##-----------------------------------------------------------------------------
+
+
+##
+## @brief      Generates all possible talent combinations for simc depending on
+##             blueprint and wow_lib.get_dps_talents
+##
+## @param      blueprint  The blueprint
+##
+## @return     List of all possible talent combinations
+##
+def __generate_talent_combinations(blueprint):
+  data_talents = wow_lib.get_dps_talents(args.wow_class)
+  for i in range(0, 7):
+    if (blueprint[i] == "-" or blueprint[i] == "x") and data_talents[i] == "0":
+      blueprint[i] = "0"
+  combinations = []
+  for first in range(4):
+    for second in range(4):
+      for third in range(4):
+        for forth in range(4):
+          for fivth in range(4):
+            for sixth in range(4):
+              for seventh in range(4):
+                combination = str(first) + str(second) + str(third) + str(forth) + str(fivth) + str(sixth) + str(seventh)
+                add_it = True
+                for i in range(7):
+                  if (not (blueprint[i] == "-" or blueprint[i] == "x")) and not combination[i] == blueprint[i]:
+                    add_it = False
+                if add_it:
+                  combinations += combination
+  return combinations
+
+
+##
+## @brief      Generates all possible talent combinations for simc depending on
+##             two_digits and wow_lib.get_dps_talents
+##
+## @param      two_digits  Two digits
+##
+## @return     List of all possible talent combinations
+##
+def __generate_talent_combinations_wrapper(two_digits):
+  return __generate_talent_combinations("-----" + two_digits)
+
+##
+## @brief      Get talent combinations from custom_talent_combinations.simc
+##
+## @return     List of all talent combinations from custom_talent_combinations.simc
+##
+def __grab_talent_combinations():
+  with open("custom_talent_combinations.simc", "r") as f:
+    combination_amount = sum(1 for _ in f)
+  if combination_amount == 0:
+      print("No talent combination in 'custom_talent_combinations.simc' found. Please recheck settings.py or your input.")
+  run = 1
+  combinations = []
+  with open("custom_talent_combinations.simc", "r") as talent_heap:
+    for line in talent_heap:
+      if line[-1:] == "\n":
+        combinations.append(line[:-1])
+      else:
+        combinations.append(line)
+  return combinations
 
 
 ##
@@ -103,6 +171,12 @@ def is_input():
       print("forced on")
     else:
       print("not forced on")
+  else:
+    print("corrupted")
+    load_errors += 1
+  print("calculation_method\t\t", end="")
+  if calculation_manager.is_calculation_method(args.calculation_method):
+    print(args.calculation_method)
   else:
     print("corrupted")
     load_errors += 1
@@ -227,26 +301,24 @@ def is_input():
 
 
 ##
-## @brief      Generates all possible talent combinations for simc
+## @brief      Gets the possible talent combinations.
 ##
-## @return     List of all possible talent combinations
+## @return     The possible talent combinations as a list.
 ##
-def generate_talent_input():
-  talents = []
-  talents += [""]
-  for i in range(1, 4):
-    for j in range(1, 4):
-      talents += [str(i) + str(j)]
-  for first in range(4):
-    for second in range(4):
-      for third in range(4):
-        for forth in range(4):
-          for fivth in range(4):
-            for sixth in range(4):
-              for seventh in range(4):
-                talents += [str(first) + str(second) + str(third) + str(forth) + str(fivth) + str(sixth) + str(seventh)]
-  return talents
-
+def get_talent_combinations():
+  combination = []
+  if args.talent_combination = "":
+    combinations = __grab_talent_combinations()
+    for combination in combinations:
+      if not is_talent_combination(combination):
+        sys.exit("At least one of the talent combinations from custom_talent_combinations.simc isn't valid.")
+  elif len(args.talent_combination) == 2:
+    combinations = __generate_talent_combinations_wrapper(args.talent_combination)
+  elif len(args.talent_combination) == 7:
+    combinations = __generate_talent_combinations(args.talent_combination)
+  else:
+    sys.exit("Something went wrong when generating talent combinations. Please recheck your input and settings")
+  return combinations
 
 ##
 ## @brief      Gets the secondary ratings from profile or
@@ -371,6 +443,11 @@ parser = argparse.ArgumentParser(description="Program calculates best secondary 
 
 ## Bloodystats settings:
 parser.add_argument(
+  "--calculation_method", 
+  nargs="?", 
+  default=settings.calculation_method,
+  help="Define which calculation method you want to use.")
+parser.add_argument(
   "-ccs", "--custom_character_stats",
   action="store_const",
   const=True,
@@ -383,11 +460,16 @@ parser.add_argument(
   default=settings.custom_fight_style, 
   help="Enables custom_fight_style.simc." )
 parser.add_argument(
-  "-html", 
+  "--html", 
   action="store_const", 
   const=True, 
   default=settings.html, 
   help="Enable html output for SimulationCraft. (Spam your disk w00p w00p!)" )
+parser.add_argument(
+  "--ouput", 
+  nargs="*", 
+  default=settings.ouput,
+  help="Define which output methods you want to use (multiple at the same time possible).")
 parser.add_argument(
   "-se", "--silent_end", 
   dest="silent_end", 
@@ -481,7 +563,7 @@ parser.add_argument(
   default=settings.threads, 
   help="Sets the number of threads SimulationCraft will use." )
 parser.add_argument(
-  "-ptr", 
+  "--ptr", 
   action="store_const", 
   const=True, 
   default=settings.ptr, 
@@ -509,9 +591,35 @@ if secondaries_amount == 0:
   print("corrupted")
   sys.exit("No secondaries were found. Program is shutting down.")
 
+print("Generating necessary talent combinations.")
+talent_combinations = get_talent_combinations()
+combination_count = len(talent_combinations)
+current_combination_count = 1
+print("We'll have to do ", end="")
+if combination_count > 1:
+  print(str(combination_count) + " runs. Better start now.")
+else:
+  print("a run. Lazily starting now.")
+
 simulation_start = datetime.datetime.now()
 base_name = "{:%Y_%m_%d_}".format(datetime.datetime.now())
 base_name += args.fight_style + "_"
 base_name += args.wow_class + "_"
 base_name += args.wow_spec + "_"
 base_name += args.wow_race
+
+result_list = []
+for talent_combination in talent_combinations:
+  result_list.append(calculation_manager.calculation_manager(talent_combination))
+  print("Result for: " + talent_combination)
+  print(result_list[-1][1] + "\t\t" + result_list[-1][2] + "\t\t" + result_list[-1][3] + "\t\t" + result_list[-1][4] + "\t\t" + result_list[-1][5])
+print("Generating output.")
+if output_manager(result_list):
+  print("Output sucessfull.")
+else:
+  print("Output failed.")
+print("Bloodystats ends now. Thank you for using it.")
+print("\t\twritten by Bloodmallet(EU)")
+if not args.silent_end:
+  endsign = input("Press Enter to terminte...")
+  print("The End")
