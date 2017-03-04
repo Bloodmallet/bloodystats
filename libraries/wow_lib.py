@@ -162,10 +162,11 @@ def get_stat(wow_class, wow_spec):
 ## @brief      Gets the dps talents. 0-no dps row, 1-dps row
 ##
 ## @param      wow_class  The class name
+## @param      wow_spec   For people who think spec is important...it isn't
 ##
 ## @return     The dps talents as string.
 ##
-def get_dps_talents(wow_class):
+def get_dps_talents(wow_class, wow_spec=""):
   return __classes_data[wow_class]["talents"]
 
 
@@ -219,18 +220,6 @@ def is_spec(wow_spec):
 # Higher functions
 #-------------------------------------------------------------------------------------
 ##
-
-
-##
-## @brief      Function for people who don't paying attention to parameters
-##
-## @param      wow_class  The class name
-## @param      wow_spec   The spec name
-##
-## @return     The dps talents as string.
-##
-def get_dps_talents(wow_class, wow_spec):
-  return get_dps_talents(wow_class)
 
 
 ##
