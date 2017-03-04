@@ -88,8 +88,10 @@ def __generate_talent_combinations(blueprint):
                 for i in range(7):
                   if (not (blueprint[i] == "-" or blueprint[i] == "x")) and not combination[i] == blueprint[i]:
                     add_it = False
+                  if combination[i] == "0" and (blueprint[i] == "-" or blueprint[i] == "x"):
+                    add_it = False
                 if add_it:
-                  combinations += combination
+                  combinations += [combination]
   return combinations
 
 
