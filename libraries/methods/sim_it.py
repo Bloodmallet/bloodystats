@@ -37,7 +37,6 @@ def sim_dps(args, talent_combination, crit_rating, haste_rating, mastery_rating,
 
   argument += "race=" + args.wow_race + " "
   argument += "talents=" + talent_combination + " "
-  argument += "fight_style=" + args.fight_style + " "
 
   if args.custom_fight_style:
     argument += "custom_fight_style.simc "
