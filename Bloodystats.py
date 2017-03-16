@@ -321,8 +321,8 @@ def is_input():
     load_errors += 1
 
   print("    ptr\t\t\t\t", end="")
-  if type(args.default_actions) == bool:
-    if args.default_actions:
+  if type(args.ptr) == bool:
+    if args.ptr:
       print("forced on")
     else:
       print("not forced on")
