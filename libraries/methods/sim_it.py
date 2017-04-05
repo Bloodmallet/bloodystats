@@ -55,7 +55,7 @@ def sim_dps(args, talent_combination, crit_rating, haste_rating, mastery_rating,
   if args.tier_set_bonus_4:
     argument += "set_bonus=tier" + args.tier_number + "_4pc=1 "
 
-  simulation = subprocess.run(argument, stdout=subprocess.PIPE, universal_newlines=True)
+  simulation = subprocess.run(argument, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
   owndps = True
   dps = -1
   for line in simulation.stdout.splitlines():
