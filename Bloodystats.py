@@ -343,7 +343,7 @@ def is_input():
 ##
 def get_talent_combinations():
   combination = []
-  if args.talent_combination == "":
+  if args.talent_combination == "" or args.talent_combination == None:
     combinations = __grab_talent_combinations()
     for combination in combinations:
       if not is_talent_combination(combination):
@@ -386,18 +386,20 @@ def get_secondary_ratings():
 ## @return     True if talent input is valid, False otherwise.
 ##
 def is_talent_combination(talent_combination):
+  if talent_combination == None:
+    return True
   if not type(talent_combination) is str:
     return False
-  if talent_combination is "":
+  if talent_combination == "":
     return True
   if len(talent_combination) == 7:
     for letter in talent_combination:
-      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3" or letter is "-" or letter is "x"):
+      if not (letter == "0" or letter == "1" or letter == "2" or letter == "3" or letter == "-" or letter == "x"):
         return False
     return True
   elif len(talent_combination) == 2:
     for letter in talent_combination:
-      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3"):
+      if not (letter == "0" or letter == "1" or letter == "2" or letter == "3"):
         return False
     return True
   # Would've been for talent combinations that set certain rows to a value without declaring anything else. Like 42 would set the forth row to the second talent. 4253 would set 4. row to 2 and 5. to 3
