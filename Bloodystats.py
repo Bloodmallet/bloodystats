@@ -594,16 +594,22 @@ args.base_name += args.wow_spec + "_"
 args.base_name += args.wow_race
 
 result_list = []
+last_result = ()
 for talent_combination in talent_combinations:
-  result_list.append(calculation_manager.calculation_manager(args, talent_combination))
+  last_result = calculation_manager.calculation_manager(args, talent_combination)
+  result_list.append(last_result)
   print("Result: " + talent_combination + "\t", end="")
-  print(result_list[-1][1] + "\t\t" + result_list[-1][2] + "\t\t" + result_list[-1][3] + "\t\t" + result_list[-1][4] + "\t\t" + result_list[-1][5])
+  print(last_result[1] + "\t\t" + last_result[2] + "\t\t" + last_result[3] + "\t\t" + last_result[4] + "\t\t" + last_result[5])
   args.current_combination_count += 1
+  if output_manager.output_manager(args, last_result, True):
+    print("Log sucessfull.")
+  else:
+    print("Log failed.")
   print("")
 simulation_end = datetime.datetime.now()
 print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")
-if output_manager.output_manager(args, result_list):
+if output_manager.output_manager(args, result_list, False):
   print("Output sucessfull.")
 else:
   print("Output failed.")
