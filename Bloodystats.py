@@ -1,4 +1,4 @@
-#!python3
+#!/usr/bin/env python3
 ###############################################################################
 ##
 ## Bloodystats uses SimulationCraft to get the best secondary stat distribution
