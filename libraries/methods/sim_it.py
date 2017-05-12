@@ -51,9 +51,9 @@ def sim_dps(args, talent_combination, crit_rating, haste_rating, mastery_rating,
   argument += "gear_versatility_rating=" + str(versatility_rating) + " "
 
   if args.tier_set_bonus_2:
-    argument += "set_bonus=tier" + args.tier_number + "_2pc=1 "
+    argument += "set_bonus=tier" + args.tier_set_number + "_2pc=1 "
   if args.tier_set_bonus_4:
-    argument += "set_bonus=tier" + args.tier_number + "_4pc=1 "
+    argument += "set_bonus=tier" + args.tier_set_number + "_4pc=1 "
 
   simulation = subprocess.run(argument, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
   owndps = True
