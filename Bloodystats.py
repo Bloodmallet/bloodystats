@@ -246,7 +246,7 @@ def is_input():
 
   print("    profile\t\t\t", end="")
   if simc_checks.is_profile(args.profile):
-    print(args.wow_spec)
+    print(args.profile)
   else:
     print("corrupted")
     load_errors += 1
