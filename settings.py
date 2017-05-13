@@ -29,7 +29,7 @@ tier_set_number = "19"
 # SimulationCraft settings:
 default_actions = False
 fight_style = "patchwerk"
-iterations = "25000"
-target_error = "0.08"
+iterations = "250000"
+target_error = "0.1"
 threads = ""
 ptr = False
