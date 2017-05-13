@@ -16,9 +16,9 @@ Bloodystats uses SimulationCraft to reseach different secondary stat rating dist
 
 
 2) Requirements
-python >=3.5
-numpy
-scipy
+python 3.5.3
+numpy 1.11.1
+scipy 0.19.0
 
 On win7 it was reported to work with anaconda, so there would be no need to set these requirements up yourself.
 
@@ -36,7 +36,7 @@ If your setup works, you'll see multiple new lines and a newline added every few
 
 4) Examples
 'python bloodystats.py' uses all data from settings.py to make a run. Change your wanted values in that file first if you want to repeat these later on again or just change one thing at a time.
-'python bloodystats.py --class shaman' will use settings.py but will overwrite the class setting to use shaman. Well if you have something like beast_master as a spec bloodystats will put out an error telling you that you input wasn't valid. I mean...who've seen a beastmaster shaman anywhere?
+'python bloodystats.py --class shaman' will use settings.py but will overwrite the class setting to use shaman. Well if you have something like beast_master as a spec bloodystats will put out an error telling you that your input wasn't valid. I mean...who've seen a beastmaster shaman anywhere?
 
 For further params please read 'settings.py' or 'python bloodystats.py -h' or 'python bloodystats.py --help'
 
