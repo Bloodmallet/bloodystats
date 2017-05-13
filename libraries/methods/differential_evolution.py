@@ -35,7 +35,9 @@ def normalize(args, values):
   temp = 0.0
   for i in range(0, 4):
     temp = values[i] * args.secondaries_amount
-    values[i] = str(int(temp.item()))
+    #values[i] = str(int(temp.item()))
+    values[i] = str(int(temp))
+    temp = 0.0
   return values
 
 
