@@ -588,7 +588,7 @@ else:
   print("one run. Lazily starting now.")
 
 simulation_start = datetime.datetime.now()
-args.base_name = "{:%Y_%m_%d__%H_%M}".format(datetime.datetime.now())
+args.base_name = "{:%Y_%m_%d__%H_%M_}".format(datetime.datetime.now())
 args.base_name += args.fight_style + "_"
 args.base_name += args.wow_class + "_"
 args.base_name += args.wow_spec + "_"
