@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python3
 ###############################################################################
 ##
@@ -616,5 +617,5 @@ else:
 print("Bloodystats ends now. Thank you for using it.")
 print("\t\twritten by Bloodmallet(EU)")
 if not args.silent_end:
-  endsign = input("Press Enter to terminte...")
+  endsign = input("Press Enter to terminate...")
   print("The End")
