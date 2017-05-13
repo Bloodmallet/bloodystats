@@ -602,7 +602,7 @@ for talent_combination in talent_combinations:
   print("Result: " + talent_combination + "\t", end="")
   print(last_result[1] + "\t\t" + last_result[2] + "\t\t" + last_result[3] + "\t\t" + last_result[4] + "\t\t" + last_result[5])
   args.current_combination_count += 1
-  if output_manager.output_manager(args, last_result, True):
+  if output_manager.output_manager(args, [last_result], True):
     print("Log sucessfull.")
   else:
     print("Log failed.")
