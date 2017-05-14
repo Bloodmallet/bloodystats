@@ -42,7 +42,7 @@ def output_manager(args, results, logging):
   for output in args.output:
     if output == "txt":
       if logging:
-        txt_output("log", results)
+        txt_output("results/log", results)
       else:
-        txt_output(file_name, results)
+        txt_output("results/" + file_name, results)
   return True
