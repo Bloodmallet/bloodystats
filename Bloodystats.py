@@ -370,12 +370,19 @@ def get_secondary_ratings():
   path += args.wow_class   + "_"
   path += args.wow_spec    + "_"
   path += args.profile     + ".simc"
-  if args.custom_character_stats:
-    path = "custom_character_stats.simc"
   with open(path, "r") as char_values:
     for line in char_values:
       if "gear_crit_rating=" in line or "gear_haste_rating=" in line or "gear_mastery_rating=" in line or "gear_versatility_rating=" in line:
         amount += __grab_secondaries(line)
+  if args.custom_character_stats:
+    custom_amount = 0
+    path = "custom_character_stats.simc"
+    with open(path, "r") as char_values:
+      for line in char_values:
+        if "gear_crit_rating=" in line or "gear_haste_rating=" in line or "gear_mastery_rating=" in line or "gear_versatility_rating=" in line:
+          custom_amount += __grab_secondaries(line)
+    if custom_amount != 0:
+      amount = custom_amount
   return amount
 
 
@@ -512,6 +519,32 @@ parser.add_argument(
   choices=simc_checks.get_tiers(), 
   help="Determines which tier set bonuses will be activated." )
 
+parser.add_argument(
+  "--lower_bound_crit", 
+  nargs="?", 
+  default=settings.lower_bound_crit,
+  help="Determines the lower boundary of crit. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--lower_bound_haste", 
+  nargs="?", 
+  default=settings.lower_bound_haste,
+  help="Determines the lower boundary of haste. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--lower_bound_mastery", 
+  nargs="?", 
+  default=settings.lower_bound_mastery,
+  help="Determines the lower boundary of mastery. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--lower_bound_versatility", 
+  nargs="?", 
+  default=settings.lower_bound_versatility,
+  help="Determines the lower boundary of versatility. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--upper_bound", 
+  nargs="?", 
+  default=settings.upper_bound,
+  help="Determines the upper boundary of all secondaries. No secondary can have more than the upper_bound." )
+
 ## SimulationCraft settings
 parser.add_argument(
   "--default_actions", 
@@ -600,7 +633,7 @@ for talent_combination in talent_combinations:
   last_result = calculation_manager.calculation_manager(args, talent_combination)
   result_list.append(last_result)
   print("Result: " + talent_combination + "\t", end="")
-  print(last_result[1] + "\t\t" + last_result[2] + "\t\t" + last_result[3] + "\t\t" + last_result[4] + "\t\t" + last_result[5])
+  print(last_result[1] + "\t" + last_result[2] + "\t\t" + last_result[3] + "\t\t" + last_result[4] + "\t\t" + last_result[5])
   args.current_combination_count += 1
   if output_manager.output_manager(args, [last_result], True):
     print("Log sucessfull.")
@@ -611,7 +644,7 @@ simulation_end = datetime.datetime.now()
 print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")
 if output_manager.output_manager(args, result_list, False):
-  print("Output sucessfull.")
+  print("Output sucessfully written into ./results/.")
 else:
   print("Output failed.")
 print("Bloodystats ends now. Thank you for using it.")
