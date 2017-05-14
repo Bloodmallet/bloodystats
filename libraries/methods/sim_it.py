@@ -13,7 +13,7 @@ import subprocess
 ##
 ## @return     DPS as s, "-1" if error
 ##
-def sim_dps(args, talent_combination, crit_rating, haste_rating, mastery_rating, versatility_rating):
+def sim_secondaries(args, talent_combination, crit_rating, haste_rating, mastery_rating, versatility_rating):
   argument = "../simc.exe "
 
   if args.ptr:
