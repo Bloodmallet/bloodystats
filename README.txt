@@ -44,13 +44,18 @@ For further params please read 'settings.py' or 'python bloodystats.py -h' or 'p
 5) Bloodystats is able to run on different talent combinations within one run. You have two different ways of setting this up. Please note that the standard talent combination from the basic profiles from SimulationCraft wont be used.
 
 using custom_talent_combinations.simc and settings.py:
-  - enter your wanted talent combinations into "custom_talent_combinations.simc"
+  - enter your wanted talent combinations into "custom_talent_combinations.simc" as new lines
   - change 'talents = "WHATEVER"' in settings.py to 'talents = ""'
   - run bloodystats.py as always (probably 'python bloodystats.py')
 
 using custom_talent_combinations.simc but no settings.py:
-  - enter your wanted talent combinations into "custom_talent_combinations.simc"
+  - enter your wanted talent combinations into "custom_talent_combinations.simc" as new lines
   - run bloodystats.py using '--talents ""' ('python bloodystats.py --talents ""')
+
+Example for "custom_talent_combinations.simc":
+2112332
+2112331
+3231323
 
 using built in talent combination generation:
   - two digit input will generate all dps talent combinations for the spec, where the last two dps rows are set to the value you input (1 left, 2 middle, 3 right) example: '--talents 21' ('python bloodystats.py --talents 21')
