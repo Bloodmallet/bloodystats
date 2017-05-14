@@ -40,10 +40,10 @@ def __generate_secondaries(args, rng_values):
 ## @return     List of secondaries as str
 ##
 def __apply_lower_bounds(args, secondaries):
-  secondaries[0] = str(int(secondaries[0] + int(args.lower_bound_crit)))
-  secondaries[1] = str(int(secondaries[1] + int(args.lower_bound_haste)))
-  secondaries[2] = str(int(secondaries[2] + int(args.lower_bound_mastery)))
-  secondaries[3] = str(int(secondaries[3] + int(args.lower_bound_versatility)))
+  secondaries[0] = str(int(secondaries[0]) + int(args.lower_bound_crit))
+  secondaries[1] = str(int(secondaries[1]) + int(args.lower_bound_haste))
+  secondaries[2] = str(int(secondaries[2]) + int(args.lower_bound_mastery))
+  secondaries[3] = str(int(secondaries[3]) + int(args.lower_bound_versatility))
   return secondaries
 
 
@@ -156,9 +156,9 @@ def __differential_evolution_catcher(bounds, *arguments):
     str(args.current_combination_count) + "/" + str(args.combination_count) + "\t" + 
     talent_combination + "\t\t" + 
     "dps: " + str(dps) + "\t" + 
-    "c:" + str(int(crit)) + "\t" + 
-    "h:" + str(int(haste.item())) + "\t" + 
-    "m:" + str(int(mastery.item())) + "\t" + 
+    "c:" + str(int(crit)) + "\t\t" + 
+    "h:" + str(int(haste.item())) + "\t\t" + 
+    "m:" + str(int(mastery.item())) + "\t\t" + 
     "v:" + str(int(vers.item()))
   )
   return -dps
