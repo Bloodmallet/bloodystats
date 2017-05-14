@@ -190,7 +190,7 @@ def differential_evolution_wrapper(args, talent_combination):
     seed=args.secondaries_amount, 
     disp=True
   )
-  crit, haste, mastery, vers = normalize(args, [result.x[0], result.x[1], result.x[2], result.x[3]])
+  crit, haste, mastery, vers = __generate_secondaries(args, [result.x[0], result.x[1], result.x[2], result.x[3]])
   return (
     talent_combination,
     str(int(-result.fun)),
