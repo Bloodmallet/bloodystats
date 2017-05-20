@@ -155,7 +155,7 @@ def __differential_evolution_catcher(bounds, *arguments):
   print("  " + 
     str(args.current_combination_count) + "/" + str(args.combination_count) + "\t" + 
     talent_combination + "\t\t" + 
-    "dps: " + str(dps) + "\t" + 
+    "dps: " + str(dps) + "\t\t" + 
     "c:" + str(int(crit)) + "\t\t" + 
     "h:" + str(int(haste.item())) + "\t\t" + 
     "m:" + str(int(mastery.item())) + "\t\t" + 
