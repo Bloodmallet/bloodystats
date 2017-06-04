@@ -1,4 +1,5 @@
-#!python3
+# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 ###############################################################################
 ##
 ## Bloodystats uses SimulationCraft to get the best secondary stat distribution
@@ -245,7 +246,7 @@ def is_input():
 
   print("    profile\t\t\t", end="")
   if simc_checks.is_profile(args.profile):
-    print(args.wow_spec)
+    print(args.profile)
   else:
     print("corrupted")
     load_errors += 1
@@ -321,8 +322,8 @@ def is_input():
     load_errors += 1
 
   print("    ptr\t\t\t\t", end="")
-  if type(args.default_actions) == bool:
-    if args.default_actions:
+  if type(args.ptr) == bool:
+    if args.ptr:
       print("forced on")
     else:
       print("not forced on")
@@ -343,7 +344,7 @@ def is_input():
 ##
 def get_talent_combinations():
   combination = []
-  if args.talent_combination == "":
+  if args.talent_combination == "" or args.talent_combination == None:
     combinations = __grab_talent_combinations()
     for combination in combinations:
       if not is_talent_combination(combination):
@@ -369,12 +370,19 @@ def get_secondary_ratings():
   path += args.wow_class   + "_"
   path += args.wow_spec    + "_"
   path += args.profile     + ".simc"
-  if args.custom_character_stats:
-    path = "custom_character_stats.simc"
   with open(path, "r") as char_values:
     for line in char_values:
       if "gear_crit_rating=" in line or "gear_haste_rating=" in line or "gear_mastery_rating=" in line or "gear_versatility_rating=" in line:
         amount += __grab_secondaries(line)
+  if args.custom_character_stats:
+    custom_amount = 0
+    path = "custom_character_stats.simc"
+    with open(path, "r") as char_values:
+      for line in char_values:
+        if "gear_crit_rating=" in line or "gear_haste_rating=" in line or "gear_mastery_rating=" in line or "gear_versatility_rating=" in line:
+          custom_amount += __grab_secondaries(line)
+    if custom_amount != 0:
+      amount = custom_amount
   return amount
 
 
@@ -386,18 +394,20 @@ def get_secondary_ratings():
 ## @return     True if talent input is valid, False otherwise.
 ##
 def is_talent_combination(talent_combination):
+  if talent_combination == None:
+    return True
   if not type(talent_combination) is str:
     return False
-  if talent_combination is "":
+  if talent_combination == "":
     return True
   if len(talent_combination) == 7:
     for letter in talent_combination:
-      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3" or letter is "-" or letter is "x"):
+      if not (letter == "0" or letter == "1" or letter == "2" or letter == "3" or letter == "-" or letter == "x"):
         return False
     return True
   elif len(talent_combination) == 2:
     for letter in talent_combination:
-      if not (letter is "0" or letter is "1" or letter is "2" or letter is "3"):
+      if not (letter == "0" or letter == "1" or letter == "2" or letter == "3"):
         return False
     return True
   # Would've been for talent combinations that set certain rows to a value without declaring anything else. Like 42 would set the forth row to the second talent. 4253 would set 4. row to 2 and 5. to 3
@@ -509,6 +519,32 @@ parser.add_argument(
   choices=simc_checks.get_tiers(), 
   help="Determines which tier set bonuses will be activated." )
 
+parser.add_argument(
+  "--lower_bound_crit", 
+  nargs="?", 
+  default=settings.lower_bound_crit,
+  help="Determines the lower boundary of crit. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--lower_bound_haste", 
+  nargs="?", 
+  default=settings.lower_bound_haste,
+  help="Determines the lower boundary of haste. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--lower_bound_mastery", 
+  nargs="?", 
+  default=settings.lower_bound_mastery,
+  help="Determines the lower boundary of mastery. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--lower_bound_versatility", 
+  nargs="?", 
+  default=settings.lower_bound_versatility,
+  help="Determines the lower boundary of versatility. The achieved secondary distribution can't have fewer ratings than this." )
+parser.add_argument(
+  "--upper_bound", 
+  nargs="?", 
+  default=settings.upper_bound,
+  help="Determines the upper boundary of all secondaries. No secondary can have more than the upper_bound." )
+
 ## SimulationCraft settings
 parser.add_argument(
   "--default_actions", 
@@ -585,28 +621,34 @@ else:
   print("one run. Lazily starting now.")
 
 simulation_start = datetime.datetime.now()
-args.base_name = "{:%Y_%m_%d_}".format(datetime.datetime.now())
+args.base_name = "{:%Y_%m_%d__%H_%M_}".format(datetime.datetime.now())
 args.base_name += args.fight_style + "_"
 args.base_name += args.wow_class + "_"
 args.base_name += args.wow_spec + "_"
 args.base_name += args.wow_race
 
 result_list = []
+last_result = ()
 for talent_combination in talent_combinations:
-  result_list.append(calculation_manager.calculation_manager(args, talent_combination))
+  last_result = calculation_manager.calculation_manager(args, talent_combination)
+  result_list.append(last_result)
   print("Result: " + talent_combination + "\t", end="")
-  print(result_list[-1][1] + "\t\t" + result_list[-1][2] + "\t\t" + result_list[-1][3] + "\t\t" + result_list[-1][4] + "\t\t" + result_list[-1][5])
+  print(last_result[1] + "\t" + last_result[2] + "\t\t" + last_result[3] + "\t\t" + last_result[4] + "\t\t" + last_result[5])
   args.current_combination_count += 1
+  if output_manager.output_manager(args, [last_result], True):
+    print("Log sucessfull.")
+  else:
+    print("Log failed.")
   print("")
 simulation_end = datetime.datetime.now()
 print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")
-if output_manager.output_manager(args, result_list):
-  print("Output sucessfull.")
+if output_manager.output_manager(args, result_list, False):
+  print("Output sucessfully written into ./results/.")
 else:
   print("Output failed.")
 print("Bloodystats ends now. Thank you for using it.")
 print("\t\twritten by Bloodmallet(EU)")
 if not args.silent_end:
-  endsign = input("Press Enter to terminte...")
+  endsign = input("Press Enter to terminate...")
   print("The End")
