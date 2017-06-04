@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ## Lib to check simc_options input values
 
 
@@ -70,7 +71,7 @@ def is_fight_style(fight_style):
 ##
 def is_iteration(iterations):
   if type(iterations) is str:
-    if int(iterations) > 5000:
+    if int(iterations) >= 5000:
       return True
   return False
 
