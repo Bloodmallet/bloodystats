@@ -25,11 +25,18 @@ tier_set_bonus_2 = False
 tier_set_bonus_4 = False
 tier_set_number = "19"
 
+lower_bound_crit = "2000"
+lower_bound_haste = "2000"
+lower_bound_mastery = "2000"
+lower_bound_versatility = "1500"
+
+upper_bound = "12500"
+
 
 # SimulationCraft settings:
 default_actions = False
 fight_style = "patchwerk"
-iterations = "25000"
-target_error = "0.08"
+iterations = "250000"
+target_error = "0.1"
 threads = ""
 ptr = False

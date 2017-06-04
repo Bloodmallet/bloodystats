@@ -19,11 +19,11 @@ def is_calculation_method(method):
 def calculation_manager(args, talent_combination):
   package = (
     talent_combination,
-    "0",
-    "0",
-    "0",
-    "0",
-    "0"
+    "0", # dps
+    "0", # crit
+    "0", # haste
+    "0", # mastery
+    "0"  # versatility
   )
   if args.calculation_method == "differential_evolution":
     package = differential_evolution_wrapper(args, talent_combination)

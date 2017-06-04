@@ -1,0 +1,3 @@
+Hi, in this directory Bloodystats is going to write the output files. log.txt is going to contain all end results to ansure that you have at least some kind of information stored if it crashes later on. Long runs take a long time...
+
+Anyway. Stay healthy

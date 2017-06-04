@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ## Utility file for class specialisations
 ## Contains wow class names, spec names, dps talent rows
 
@@ -66,7 +67,7 @@ __classes_data = {
     "specs": {
       "assassination": { "role": "melee", "stat": "agi" },
       "outlaw":        { "role": "melee", "stat": "agi" },
-      "sublety":       { "role": "melee", "stat": "agi" }
+      "subtlety":       { "role": "melee", "stat": "agi" }
     }
   },
   "shaman": {
