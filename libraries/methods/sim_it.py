@@ -56,7 +56,17 @@ def sim_secondaries(args, talent_combination, crit_rating, haste_rating, mastery
   if args.tier_set_bonus_4:
     argument += "set_bonus=tier" + args.tier_set_number + "_4pc=1 "
 
-  simulation = subprocess.run(argument, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+  startupinfo = subprocess.STARTUPINFO()
+  startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+  simulation = subprocess.run(
+    argument, 
+    stdout=subprocess.PIPE, 
+    stderr=subprocess.STDOUT, 
+    universal_newlines=True, 
+    startupinfo=startupinfo
+  )
+
   owndps = True
   dps = -1
   for line in simulation.stdout.splitlines():
