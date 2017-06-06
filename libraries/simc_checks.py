@@ -77,11 +77,11 @@ def is_iteration(iterations):
 
 
 ##
-## @brief      Determines if profile.
+## @brief      Determines if profile is a valid input based on simc profiles.
 ##
 ## @param      profile  The profile
 ##
-## @return     True if profile, False otherwise.
+## @return     True if profile matches simc profiles, False otherwise.
 ##
 def is_profile(profile):
   if profile in get_profiles():
@@ -105,7 +105,7 @@ def is_target_error(target_error):
 
 
 ##
-## @brief      Determines if threads.
+## @brief      Determines if threads is useable for simc.
 ##
 ## @param      threads  The threads
 ##
@@ -119,7 +119,7 @@ def is_threads(threads):
 
 
 ##
-## @brief      Determines if tier number.
+## @brief      Determines if tier number matches the current (addon) available tiers.
 ##
 ## @param      tier_number  The tier number
 ##
