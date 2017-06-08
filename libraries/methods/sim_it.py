@@ -13,59 +13,64 @@ import subprocess
 ##
 ## @return     DPS as s, "-1" if error
 ##
-def sim_secondaries(args, talent_combination, crit_rating, haste_rating, mastery_rating, versatility_rating):
-  # TODO: switch depending on OS
-  argument = "../simc.exe "
+def sim_secondaries( args, talent_combination, crit_rating, haste_rating, mastery_rating, versatility_rating ):
+  argument = [ args.simc_path ]
 
   if args.ptr:
-    argument += "ptr=1 "
+    argument.append( "ptr=1 " )
 
-  argument += "iterations=" + args.iterations + " "
-  argument += "target_error=" + args.target_error + " "
-  argument += "fight_style=" + args.fight_style + " "
-  argument += "fixed_time=1 "
+  argument.append( "iterations=" + args.iterations )
+  argument.append( "target_error=" + args.target_error )
+  argument.append( "fight_style=" + args.fight_style )
+  argument.append( "fixed_time=1" )
   if args.html:
-    argument += "html=" + args.base_name + ".html "
+    argument.append( "html=" + args.base_name + ".html" )
 
   if args.default_actions:
-    argument += "default_actions=1 "
+    argument.append( "default_actions=1" )
 
-  argument += "threads=" + args.threads + " "
-  argument += args.wow_class + "_" + args.wow_spec + "_" + args.profile + ".simc "
+  argument.append( "threads=" + args.threads )
+  argument.append( args.wow_class + "_" + args.wow_spec + "_" + args.profile + ".simc" )
 
   if args.custom_character_stats:
-    argument += "custom_character_stats.simc "
+    argument.append( "custom_character_stats.simc" )
 
-  argument += "race=" + args.wow_race + " "
-  argument += "talents=" + talent_combination + " "
+  argument.append( "race=" + args.wow_race )
+  argument.append( "talents=" + talent_combination )
 
   if args.custom_fight_style:
-    argument += "custom_fight_style.simc "
+    argument.append( "custom_fight_style.simc" )
 
-  argument += "default_skill=1.0 "
-  argument += "calculate_scale_factors=0 "
-  argument += "log=0 "
+  argument.append( "default_skill=1.0" )
+  argument.append( "calculate_scale_factors=0" )
+  argument.append( "log=0" )
 
-  argument += "gear_crit_rating=" + str(crit_rating) + " "
-  argument += "gear_haste_rating=" + str(haste_rating) + " "
-  argument += "gear_mastery_rating=" + str(mastery_rating) + " "
-  argument += "gear_versatility_rating=" + str(versatility_rating) + " "
+  argument.append( "gear_crit_rating=" + str(crit_rating) )
+  argument.append( "gear_haste_rating=" + str(haste_rating) )
+  argument.append( "gear_mastery_rating=" + str(mastery_rating) )
+  argument.append( "gear_versatility_rating=" + str(versatility_rating) )
 
   if args.tier_set_bonus_2:
-    argument += "set_bonus=tier" + args.tier_set_number + "_2pc=1 "
+    argument.append( "set_bonus=tier" + args.tier_set_number + "_2pc=1" )
   if args.tier_set_bonus_4:
-    argument += "set_bonus=tier" + args.tier_set_number + "_4pc=1 "
+    argument.append( "set_bonus=tier" + args.tier_set_number + "_4pc=1" )
 
-  startupinfo = subprocess.STARTUPINFO()
-  startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+  # should prevent additional empty windows popping up...on win32 systems without breaking different OS
+  if sys.platform == 'win32':
+    print("win32")
+    # call simulationcraft in the background. grab output for processing and get dps value
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
-  simulation = subprocess.run(
-    argument, 
-    stdout=subprocess.PIPE, 
-    stderr=subprocess.STDOUT, 
-    universal_newlines=True, 
-    startupinfo=startupinfo
-  )
+    simulation = subprocess.run(
+      argument, 
+      stdout=subprocess.PIPE, 
+      stderr=subprocess.STDOUT, 
+      universal_newlines=True, 
+      startupinfo=startupinfo
+    )
+  else:
+    simulation = subprocess.run(argument, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
 
   owndps = True
   dps = -1

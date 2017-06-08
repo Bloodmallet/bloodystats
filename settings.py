@@ -25,18 +25,19 @@ tier_set_bonus_2 = False
 tier_set_bonus_4 = False
 tier_set_number = "19"
 
-lower_bound_crit = "2000"
-lower_bound_haste = "2000"
-lower_bound_mastery = "2000"
+lower_bound_crit        = "2000"
+lower_bound_haste       = "2000"
+lower_bound_mastery     = "2000"
 lower_bound_versatility = "1500"
 
-upper_bound = "12500"
+upper_bound             = "13500"
 
 
 # SimulationCraft settings:
-default_actions = False
-fight_style = "patchwerk"
+simc_path = "../simc.exe"     # don't touch this one, unless you know what you're doing
+default_actions = False       # set to False if you want to test your own apl in custom_character_stats...make sure to activate that too
+fight_style = "patchwerk"     # your usual simc fight styles
 iterations = "250000"
-target_error = "0.1"
-threads = ""
-ptr = False
+target_error = "0.1"          # simulation terminates when it reaches this target error or iterations, whatever triggers first. target error defines other accuracies too
+threads = ""                  # how many threads simc is going to use, empty results in using all
+ptr = False                   # use ptr data?
