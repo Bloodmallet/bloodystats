@@ -1,5 +1,6 @@
 #!python3
 import subprocess
+import sys
 
 
 ##
@@ -57,7 +58,6 @@ def sim_secondaries( args, talent_combination, crit_rating, haste_rating, master
 
   # should prevent additional empty windows popping up...on win32 systems without breaking different OS
   if sys.platform == 'win32':
-    print("win32")
     # call simulationcraft in the background. grab output for processing and get dps value
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW

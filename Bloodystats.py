@@ -547,6 +547,11 @@ parser.add_argument(
 
 ## SimulationCraft settings
 parser.add_argument(
+  "--simc_path", 
+  nargs="?", 
+  default=settings.simc_path, 
+  help="Contains the path to SimulationCraft. Basic is '../simc.exe' for Windows users." )
+parser.add_argument(
   "--default_actions", 
   action="store_const", 
   const=True, 
