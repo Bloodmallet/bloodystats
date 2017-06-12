@@ -29,7 +29,8 @@ def get_profiles():
     "T19H",
     "T19H_NH",
     "T19M",
-    "T19M_NH"
+    "T19M_NH",
+    "T20M"
   )
 
 
