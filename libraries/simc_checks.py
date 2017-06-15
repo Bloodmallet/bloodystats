@@ -30,6 +30,7 @@ def get_profiles():
     "T19H_NH",
     "T19M",
     "T19M_NH",
+    "T20H",
     "T20M"
   )
 
@@ -85,8 +86,9 @@ def is_iteration(iterations):
 ## @return     True if profile matches simc profiles, False otherwise.
 ##
 def is_profile(profile):
-  if profile in get_profiles():
-    return True
+  for base_profile in get_profiles():
+    if profile.lower() == base_profile.lower():
+      return True
   return False
 
 
@@ -127,6 +129,7 @@ def is_threads(threads):
 ## @return     True if tier number, False otherwise.
 ##
 def is_tier_number(tier_number):
-  if tier_number in get_tiers():
-    return True
+  if type(tier_number) == str:
+    if tier_number in get_tiers():
+      return True
   return False

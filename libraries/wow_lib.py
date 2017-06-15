@@ -3,94 +3,94 @@
 ## Contains wow class names, spec names, dps talent rows
 
 __classes_data = {
-  "death_knight": {
+  "Death_Knight": {
     "talents": "1110011",
     "specs": {
-      "blood":  { "role": "melee", "stat": "str" },
-      "frost":  { "role": "melee", "stat": "str" },
-      "unholy": { "role": "melee", "stat": "str" }
+      "Blood":  { "role": "melee", "stat": "str" },
+      "Frost":  { "role": "melee", "stat": "str" },
+      "Unholy": { "role": "melee", "stat": "str" }
     }
   },
-  "demon_hunter": {
+  "Demon_Hunter": {
     "talents": "1110111",
     "specs": {
-      "havoc":    { "role": "melee", "stat": "agi" },
-      "vengance": { "role": "melee", "stat": "agi" }
+      "Havoc":    { "role": "melee", "stat": "agi" },
+      "Vengance": { "role": "melee", "stat": "agi" }
     }
   },
-  "druid": {
+  "Druid": {
     "talents": "1000111",
     "specs": { 
-      "balance":  { "role": "ranged", "stat": "int" },
-      "feral":    { "role": "melee",  "stat": "agi" },
-      "guardian": { "role": "melee",  "stat": "agi" }
+      "Balance":  { "role": "ranged", "stat": "int" },
+      "Feral":    { "role": "melee",  "stat": "agi" },
+      "Guardian": { "role": "melee",  "stat": "agi" }
     }
   },
-  "hunter": {
+  "Hunter": {
     "talents": "1101011",
     "specs": {
-      "beast_mastery": { "role": "ranged", "stat": "agi" },
-      "marksmanship":  { "role": "ranged", "stat": "agi" },
-      "survival":      { "role": "melee",  "stat": "agi" }
+      "Beast_Mastery": { "role": "ranged", "stat": "agi" },
+      "Marksmanship":  { "role": "ranged", "stat": "agi" },
+      "Survival":      { "role": "melee",  "stat": "agi" }
     }
   },
-  "mage": {
+  "Mage": {
     "talents": "1011011",
     "specs": {
-      "arcane": { "role": "ranged", "stat": "int" },
-      "fire":   { "role": "ranged", "stat": "int" },
-      "frost":  { "role": "ranged", "stat": "int" }
+      "Arcane": { "role": "ranged", "stat": "int" },
+      "Fire":   { "role": "ranged", "stat": "int" },
+      "Frost":  { "role": "ranged", "stat": "int" }
     }
   },
-  "monk": {
+  "Monk": {
     "talents": "1010011",
     "specs": {
-      "brewmaster": { "role": "melee", "stat": "agi" },
-      "windwalker": { "role": "melee", "stat": "agi" }
+      "Brewmaster": { "role": "melee", "stat": "agi" },
+      "Windwalker": { "role": "melee", "stat": "agi" }
     }
   },
-  "paladin": {
+  "Paladin": {
     "talents": "1101001",
     "specs": {
-      "protection":  { "role": "melee", "stat": "str" },
-      "retribution": { "role": "melee", "stat": "str" }
+      "Protection":  { "role": "melee", "stat": "str" },
+      "Retribution": { "role": "melee", "stat": "str" }
     }
   },
-  "priest": {
+  "Priest": {
     "talents": "1001111",
     "specs": {
-      "shadow": { "role": "ranged", "stat": "int" }
+      "Shadow": { "role": "ranged", "stat": "int" }
     }
   },
-  "rogue": {
+  "Rogue": {
     "talents": "1110111",
     "specs": {
-      "assassination": { "role": "melee", "stat": "agi" },
-      "outlaw":        { "role": "melee", "stat": "agi" },
-      "subtlety":       { "role": "melee", "stat": "agi" }
+      "Assassination": { "role": "melee", "stat": "agi" },
+      "Outlaw":        { "role": "melee", "stat": "agi" },
+      "Subtlety":       { "role": "melee", "stat": "agi" }
     }
   },
-  "shaman": {
+  "Shaman": {
     "talents": "1001111",
     "specs": {
-      "elemental":   { "role": "ranged", "stat": "int" },
-      "enhancement": { "role": "melee",  "stat": "agi" }
+      "Elemental":   { "role": "ranged", "stat": "int" },
+      "Enhancement": { "role": "melee",  "stat": "agi" }
     }
   },
-  "warlock": {
+  "Warlock": {
     "talents": "1101011",
     "specs": {
-      "affliction":  { "role": "ranged", "stat": "int" },
-      "demonology":  { "role": "ranged", "stat": "int" },
-      "destruction": { "role": "ranged", "stat": "int" }
+      "Affliction":  { "role": "ranged", "stat": "int" },
+      "Demonology":  { "role": "ranged", "stat": "int" },
+      "Destruction": { "role": "ranged", "stat": "int" }
     }
   },
-  "warrior": {
+  "Warrior": {
     "talents": "1010111",
     "specs": {
-      "arms":       { "role": "melee", "stat": "str" },
-      "fury":       { "role": "melee", "stat": "str" },
-      "protection": { "role": "melee", "stat": "str" }
+      "Arms":       { "role": "melee", "stat": "str" },
+      "Fury":       { "role": "melee", "stat": "str" },
+      "Protection": { "role": "melee", "stat": "str" }
     }
   }
 }
@@ -199,10 +199,10 @@ def get_specs(wow_class):
 ## @return     True if class, False otherwise.
 ##
 def is_class(wow_class):
-  if wow_class in get_classes():
-    return True
-  else:
-    return False
+  for base_class in get_classes():
+    if wow_class.lower() == base_class.lower():
+      return True
+  return False
 
 
 ##
@@ -225,14 +225,17 @@ def is_race(race):
 ##
 ## @return     True if spec exists in wow, False otherwise.
 ##
-def is_spec(wow_spec):
+def is_spec( wow_spec ):
   spec_list = []
-  for wow_class in __classes_data:
-    spec_list = spec_list + get_specs(wow_class)
-  if wow_spec in spec_list:
-    return True
-  else:
-    return False
+  classes = get_classes()
+  for wow_class in classes:
+    specs = get_specs( wow_class )
+    for spec in specs:
+      spec_list.append( spec )
+  for spec in spec_list:
+    if wow_spec.lower() == spec.lower():
+      return True
+  return False
 
 
 ##
@@ -263,7 +266,11 @@ def get_role_stat(wow_class, wow_spec):
 ## @return     The specifier information.
 ##
 def get_spec_info(wow_class, wow_spec):
- return [get_role(wow_class, wow_spec), get_stat(wow_class, wow_spec), get_dps_talents(wow_class)]
+  return [
+    get_role(wow_class, wow_spec), 
+    get_stat(wow_class, wow_spec), 
+    get_dps_talents(wow_class)
+  ]
 
 
 ##
@@ -275,7 +282,10 @@ def get_spec_info(wow_class, wow_spec):
 ## @return     List of [main_stat, role]
 ##
 def get_stat_role(wow_class, wow_spec):
-  return [get_stat(wow_class, wow_spec), get_role(wow_class, wow_spec)]
+  return [
+    get_stat(wow_class, wow_spec),
+    get_role(wow_class, wow_spec)
+  ]
 
 
 ##
@@ -289,8 +299,9 @@ def get_stat_role(wow_class, wow_spec):
 def is_class_spec(wow_class, wow_spec):
   if is_class(wow_class):
     if is_spec(wow_spec):
-      if wow_spec in get_specs(wow_class):
-        return True
+      for spec in get_specs(wow_class):
+        if wow_spec.lower() == spec.lower():
+          return True
   return False
 
 

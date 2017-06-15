@@ -215,6 +215,7 @@ def is_input():
   print("  Char settings:")
   print("    wow_class\t\t\t", end="")
   if wow_lib.is_class(args.wow_class):
+    args.wow_class = args.wow_class.title()
     print(args.wow_class)
   else:
     print("corrupted")
@@ -229,6 +230,7 @@ def is_input():
 
   print("    wow_spec\t\t\t", end="")
   if wow_lib.is_spec(args.wow_spec):
+    args.wow_spec = args.wow_spec.title()
     print(args.wow_spec)
   else:
     print("corrupted")
@@ -246,6 +248,7 @@ def is_input():
 
   print("    profile\t\t\t", end="")
   if simc_checks.is_profile(args.profile):
+    args.profile = args.profile.upper()
     print(args.profile)
   else:
     print("corrupted")
