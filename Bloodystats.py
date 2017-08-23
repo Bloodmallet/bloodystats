@@ -24,7 +24,7 @@
 ##
 ##
 ## Questions, ideas? Hit me up on Discord:
-## https://discord.gg/tFR2uvK       Channel: #Bloodystats
+## https://discord.gg/tFR2uvK       Channel: #bloodytools
 ##                                                              Bloodmallet(EU)
 ###############################################################################
 
@@ -45,9 +45,9 @@ import settings
 import sys
 
 ## Library with general wow information
-import libraries.wow_lib as wow_lib
+import libraries.simc_lib.wow_lib as wow_lib
 ## Library with simc values and checks
-import libraries.simc_checks as simc_checks
+import libraries.simc_lib.simc_checks as simc_checks
 
 ## Function which manages all available calculation functions
 import libraries.methods.calculation_manager as calculation_manager
@@ -294,7 +294,7 @@ def is_input():
     load_errors += 1
 
   print("    fight_style\t\t\t", end="")
-  if simc_checks.is_fight_style(args.fight_style):
+  if simc_checks.is_fight_style([args.fight_style]):
     print(args.fight_style)
   else:
     print("corrupted")
@@ -500,7 +500,7 @@ parser.add_argument(
   nargs="?",
   default=settings.profile,
   choices=simc_checks.get_profiles(),
-  help="Determines which basic profile will be used for calculations. (example: 19M_NH)" )
+  help="Determines which basic profile will be used for calculations. (example: T19M_NH)" )
 parser.add_argument(
   "-t2", 
   "--tier_set_bonus_2", 
@@ -637,7 +637,11 @@ args.base_name += args.wow_race
 
 result_list = []
 last_result = ()
+args.all_results = {}
+
 for talent_combination in talent_combinations:
+  args.all_results[talent_combination] = []
+  
   last_result = calculation_manager.calculation_manager(args, talent_combination)
   result_list.append(last_result)
   print("Result: " + talent_combination + "\t", end="")
@@ -648,15 +652,19 @@ for talent_combination in talent_combinations:
   else:
     print("Log failed.")
   print("")
+
 simulation_end = datetime.datetime.now()
 print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")
+
 if output_manager.output_manager(args, result_list, False):
   print("Output sucessfully written into ./results/.")
 else:
   print("Output failed.")
+
 print("Bloodystats ends now. Thank you for using it.")
 print("\t\twritten by Bloodmallet(EU)")
+
 if not args.silent_end:
   endsign = input("Press Enter to terminate...")
   print("The End")

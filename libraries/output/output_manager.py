@@ -44,5 +44,5 @@ def output_manager(args, results, logging):
       if logging:
         txt_output("results/log", results)
       else:
-        txt_output("results/" + file_name, results)
+        txt_output("results/" + file_name, results, args.all_results)
   return True
