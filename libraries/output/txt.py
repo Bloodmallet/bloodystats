@@ -29,6 +29,6 @@ def txt_output(file_name, results, all_simmed_values={}):
 
         for one_simulation in massaged_collection[result[0]]:
           if ( 100 - (int(one_simulation[0]) * 100 / int(result[1]) ) < 1.0 ):
-            file.write("  " + one_simulation[0] + "\t" + one_simulation[1] + "\t" + one_simulation[2] + "\t" + one_simulation[3] + "\t" + one_simulation[4] + "\n")
+            file.write("       \t" + one_simulation[0] + "\t" + one_simulation[1] + "\t" + one_simulation[2] + "\t" + one_simulation[3] + "\t" + one_simulation[4] + "\n")
   return True
       
