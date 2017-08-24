@@ -333,6 +333,19 @@ def is_input():
   else:
     print("corrupted")
     load_errors += 1
+
+  print("")
+  print("    step_size\t\t\t", end="")
+  if type(args.step_size) == int:
+    print(str(args.step_size))
+  elif type(args.step_size) == str:
+    args.step_size = int(args.step_size)
+    print(str(args.step_size))
+  else:
+    print("corrupted")
+    load_errors += 1
+
+
   print("Checks are done.")
   if load_errors > 0:
     return False
@@ -590,6 +603,12 @@ parser.add_argument(
   const=True, 
   default=settings.ptr, 
   help="Enable ptr calculation for SimulationCraft." )
+
+parser.add_argument(
+  "--step_size", 
+  nargs="?", 
+  default=settings.step_size,
+  help="Determines the step_size of fixed_steps calculation method." )
 
 args = parser.parse_args()
 

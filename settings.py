@@ -6,7 +6,7 @@
 
 
 # Bloodystats settings:
-calculation_method     = "differential_evolution"
+calculation_method     = "differential_evolution" # differential_evolution or fixed_steps
 custom_character_stats = False
 custom_fight_style     = False
 html                   = False
@@ -37,6 +37,9 @@ simc_path       = "../simc.exe"   # don't touch this one, unless you know what y
 default_actions = False           # set to False if you want to test your own apl in custom_character_stats...make sure to activate that too
 fight_style     = "patchwerk"     # your usual simc fight styles
 iterations      = "250000"
-target_error    = "0.1"           # simulation terminates when it reaches this target error or iterations, whatever triggers first. target error defines other accuracies too
+target_error    = "0.2"           # simulation terminates when it reaches this target error or iterations, whatever triggers first. target error defines the accuracy of differential evolution too
 threads         = ""              # how many threads simc is going to use, empty results in using all
 ptr             = False           # use ptr data?
+
+# calculation settings
+step_size = 2000                  # step size of the fixed_steps calculation method

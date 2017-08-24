@@ -2,11 +2,13 @@
 ## Library to manage all available calculation methods
 
 from libraries.methods.differential_evolution import differential_evolution_wrapper
+from libraries.methods.fixed_steps import fixed_steps
 
 
 def __get_calculation_methods():
   return (
     "differential_evolution",
+    "fixed_steps",
   )
 
 
@@ -27,4 +29,6 @@ def calculation_manager(args, talent_combination):
   )
   if args.calculation_method == "differential_evolution":
     package = differential_evolution_wrapper(args, talent_combination)
+  elif args.calculation_method == "fixed_steps":
+    package = fixed_steps(args, talent_combination)
   return package
