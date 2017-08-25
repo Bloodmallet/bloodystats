@@ -667,7 +667,7 @@ for talent_combination in talent_combinations:
   print(last_result[1] + "\t" + last_result[2] + "\t\t" + last_result[3] + "\t\t" + last_result[4] + "\t\t" + last_result[5])
   args.current_combination_count += 1
   if output_manager.output_manager(args, [last_result], True):
-    print("Log sucessfull.")
+    print("Log successful.")
   else:
     print("Log failed.")
   print("")
@@ -677,7 +677,7 @@ print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")
 
 if output_manager.output_manager(args, result_list, False):
-  print("Output sucessfully written into ./results/.")
+  print("Output successfully written into ./results/.")
 else:
   print("Output failed.")
 
