@@ -156,11 +156,13 @@ def __differential_evolution_catcher(bounds, *arguments):
     str(args.current_combination_count) + "/" + str(args.combination_count) + "\t" + 
     talent_combination + "\t\t" + 
     "dps: " + str(dps) + "\t\t" + 
-    "c:" + str(int(crit)) + "\t\t" + 
+    "c:" + str(int(crit.item())) + "\t\t" + 
     "h:" + str(int(haste.item())) + "\t\t" + 
     "m:" + str(int(mastery.item())) + "\t\t" + 
     "v:" + str(int(vers.item()))
   )
+  # add a new touple to all_results for the talent_combination (dps s, crit s, haste s, mastery s, vers s)
+  args.all_results[talent_combination].append(( str(dps), str(int(crit.item())), str(int(haste.item())), str(int(mastery.item())), str(int(vers.item())) ))
   return -dps
 
 
