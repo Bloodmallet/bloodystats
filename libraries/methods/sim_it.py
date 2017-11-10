@@ -31,7 +31,7 @@ def sim_secondaries( args, talent_combination, crit_rating, haste_rating, master
     argument.append( "default_actions=1" )
 
   argument.append( "threads=" + args.threads )
-  argument.append( args.wow_class + "_" + args.wow_spec + "_" + args.profile + ".simc" )
+  argument.append( args.profile + "_" + args.wow_class + "_" + args.wow_spec + ".simc" )
 
   if args.custom_character_stats:
     argument.append( "custom_character_stats.simc" )
@@ -63,10 +63,10 @@ def sim_secondaries( args, talent_combination, crit_rating, haste_rating, master
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
     simulation = subprocess.run(
-      argument, 
-      stdout=subprocess.PIPE, 
-      stderr=subprocess.STDOUT, 
-      universal_newlines=True, 
+      argument,
+      stdout=subprocess.PIPE,
+      stderr=subprocess.STDOUT,
+      universal_newlines=True,
       startupinfo=startupinfo
     )
   else:
@@ -109,7 +109,7 @@ def sim_secondaries_profilesets( args, talent_combination, distributions ):
     argument.append( "default_actions=1" )
 
   argument.append( "threads=" + args.threads )
-  argument.append( args.wow_class + "_" + args.wow_spec + "_" + args.profile + ".simc" )
+  argument.append( args.profile + "_" + args.wow_class + "_" + args.wow_spec + ".simc" )
 
   if args.custom_character_stats:
     argument.append( "custom_character_stats.simc" )
@@ -148,9 +148,9 @@ def sim_secondaries_profilesets( args, talent_combination, distributions ):
 
     simulation = subprocess.run(
       argument,
-      stdout=subprocess.PIPE, 
-      stderr=subprocess.STDOUT, 
-      universal_newlines=True, 
+      stdout=subprocess.PIPE,
+      stderr=subprocess.STDOUT,
+      universal_newlines=True,
       startupinfo=startupinfo
     )
   else:

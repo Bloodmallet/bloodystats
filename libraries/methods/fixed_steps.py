@@ -35,7 +35,8 @@ def fixed_steps(args, talent_combination):
                 int(vers + v * step_size - temp_sum / 4)
               ))
 
-  #print("Found valid secondary combinations: " + str(len(distribution_collection)))
+  print("Found valid secondary combinations for " + talent_combination + ": " + str(len(distribution_collection)))
+  print( "This will take a while without further output. Wait...\r" )
   best_result_dps, best_result_crit, best_result_haste, best_result_mastery, best_result_vers = sim_it.sim_secondaries_profilesets(args, talent_combination, distribution_collection)
 
   return (
