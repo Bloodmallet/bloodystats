@@ -2,7 +2,7 @@
 ## If you want to call Bloodystats without parameters
 ## or always with the same settings, just edit this
 ## file to contain your wanted values.
- 
+
 
 
 # Bloodystats settings:
@@ -13,17 +13,17 @@ html                   = False
 output                 = ["txt"]
 silent_end             = False              # terminates without user input
 
- 
+
 # Char settings:
 wow_class = "shaman"
 wow_race  = "draenei"
 wow_spec  = "elemental"
 talents   = "3002332"             # "" - empty, two digits (11 to 33) or whole talent combination
 
-profile          = "T20M"
+profile          = "T21"
 tier_set_bonus_2 = False
 tier_set_bonus_4 = False
-tier_set_number  = "20"
+tier_set_number  = "21"
 
 lower_bound_crit        = "2000"
 lower_bound_haste       = "2000"
