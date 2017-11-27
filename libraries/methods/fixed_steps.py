@@ -11,9 +11,16 @@ def fixed_steps(args, talent_combination):
   mastery = int(args.lower_bound_mastery)
   vers = int(args.lower_bound_versatility)
 
-  step_size = args.step_size
+  step_size = int( args.step_size )
 
   steps = int(int(args.upper_bound) / step_size)
+
+  # add left over values that are smaller than step size to the base values 631, step_size: 200, relocation of 31 stats
+  temp_sum = int( ( ( int( args.upper_bound ) - crit - haste - mastery - vers ) % step_size ) / 4 )
+  crit += temp_sum
+  haste += temp_sum
+  mastery += temp_sum
+  vers += temp_sum
 
   distribution_collection = []
 
