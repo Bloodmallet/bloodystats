@@ -7,9 +7,9 @@
 ##
 ## Read README.txt to install/use correctly
 ##
-## Script is written on and for Windows 10 only. I don't test it on any other 
+## Script is written on and for Windows 10 only. I don't test it on any other
 ## system.
-## 
+##
 ## Needs:  Python 3.5.3
 ##         Numpy
 ##         Scipy
@@ -17,9 +17,9 @@
 ## This program is provided as is. No warranity of any kind is given. Use it at
 ## your own risk.
 ##
-## How to build: (this information is only relevant for the forgetful author 
+## How to build: (this information is only relevant for the forgetful author
 ## himself)
-##   use powershell and 
+##   use powershell and
 ##   pyinstaller .\Bloodystats.spec
 ##
 ##
@@ -381,11 +381,15 @@ def get_talent_combinations():
 ##
 def get_secondary_ratings():
   amount = 0
-  path = "../profiles/Tier"
-  path += args.profile[1:] + "/"
+  if args.profile[0] == "T":
+    path = "../profiles/Tier"
+    path += args.profile[1:] + "/"
+  else:
+    path = "../profiles/PreRaids/"
+  path += args.profile     + "_"
   path += args.wow_class   + "_"
-  path += args.wow_spec    + "_"
-  path += args.profile     + ".simc"
+  path += args.wow_spec    + ".simc"
+
   with open(path, "r") as char_values:
     for line in char_values:
       if "gear_crit_rating=" in line or "gear_haste_rating=" in line or "gear_mastery_rating=" in line or "gear_versatility_rating=" in line:
@@ -446,8 +450,8 @@ parser = argparse.ArgumentParser(description="Program calculates best secondary 
 
 ## Bloodystats settings:
 parser.add_argument(
-  "--calculation_method", 
-  nargs="?", 
+  "--calculation_method",
+  nargs="?",
   default=settings.calculation_method,
   help="Define which calculation method you want to use.")
 parser.add_argument(
@@ -457,54 +461,54 @@ parser.add_argument(
   default=settings.custom_character_stats,
   help="Enables custom_character_stats.simc in addition to the basic profile." )
 parser.add_argument(
-  "-cfs", "--custom_fight_style", 
-  action="store_const", 
-  const=True, 
-  default=settings.custom_fight_style, 
+  "-cfs", "--custom_fight_style",
+  action="store_const",
+  const=True,
+  default=settings.custom_fight_style,
   help="Enables custom_fight_style.simc." )
 parser.add_argument(
-  "--html", 
-  action="store_const", 
-  const=True, 
-  default=settings.html, 
+  "--html",
+  action="store_const",
+  const=True,
+  default=settings.html,
   help="Enable html output for SimulationCraft. (Spam your disk w00p w00p!)" )
 parser.add_argument(
-  "--output", 
-  nargs="*", 
+  "--output",
+  nargs="*",
   default=settings.output,
   help="Define which output methods you want to use (multiple at the same time possible).")
 parser.add_argument(
-  "-se", "--silent_end", 
-  dest="silent_end", 
-  action="store_const", 
-  const=True, 
-  default=settings.silent_end, 
+  "-se", "--silent_end",
+  dest="silent_end",
+  action="store_const",
+  const=True,
+  default=settings.silent_end,
   help="Let the program terminate without user input.")
 
 ## Char settings
 parser.add_argument(
-  "--class", 
-  nargs="?", 
-  default=settings.wow_class, 
+  "--class",
+  nargs="?",
+  default=settings.wow_class,
   choices=wow_lib.get_classes(),
   dest="wow_class",
   help="Name of the class of your character." )
 parser.add_argument(
-  "--race", 
-  nargs="?", 
-  default=settings.wow_race, 
+  "--race",
+  nargs="?",
+  default=settings.wow_race,
   choices=wow_lib.get_races(),
   dest="wow_race",
   help="Name of the race." )
 parser.add_argument(
-  "--spec", 
-  nargs="?", 
-  default=settings.wow_spec, 
+  "--spec",
+  nargs="?",
+  default=settings.wow_spec,
   dest="wow_spec",
   help="Name of the specialisation of your character." )
 parser.add_argument(
   "--talents", "--talent_combination",
-  nargs="?", 
+  nargs="?",
   default=settings.talents,
   dest="talent_combination",
   help="Talentselection of the last two rows or full. E.g. 12 vs 2112332 vs 2----12 vs 2xxxxx12. Empty enables custom_talent_combinations.simc. For further information please read the README.TXT" )
@@ -515,98 +519,98 @@ parser.add_argument(
   choices=simc_checks.get_profiles(),
   help="Determines which basic profile will be used for calculations. (example: T19M_NH)" )
 parser.add_argument(
-  "-t2", 
-  "--tier_set_bonus_2", 
-  action="store_const", 
-  const=True, 
-  default=settings.tier_set_bonus_2, 
+  "-t2",
+  "--tier_set_bonus_2",
+  action="store_const",
+  const=True,
+  default=settings.tier_set_bonus_2,
   help="Enables --tier_set_number 2 piece bonus." )
 parser.add_argument(
-  "-t4", 
-  "--tier_set_bonus_4", 
-  action="store_const", 
-  const=True, 
-  default=settings.tier_set_bonus_4, 
+  "-t4",
+  "--tier_set_bonus_4",
+  action="store_const",
+  const=True,
+  default=settings.tier_set_bonus_4,
   help="Enables --tier_set_number 4 piece bonus." )
 parser.add_argument(
-  "-tier", "--tier_set_number", 
-  nargs="?", 
-  default=settings.tier_set_number, 
-  choices=simc_checks.get_tiers(), 
+  "-tier", "--tier_set_number",
+  nargs="?",
+  default=settings.tier_set_number,
+  choices=simc_checks.get_tiers(),
   help="Determines which tier set bonuses will be activated." )
 
 parser.add_argument(
-  "--lower_bound_crit", 
-  nargs="?", 
+  "--lower_bound_crit",
+  nargs="?",
   default=settings.lower_bound_crit,
   help="Determines the lower boundary of crit. The achieved secondary distribution can't have fewer ratings than this." )
 parser.add_argument(
-  "--lower_bound_haste", 
-  nargs="?", 
+  "--lower_bound_haste",
+  nargs="?",
   default=settings.lower_bound_haste,
   help="Determines the lower boundary of haste. The achieved secondary distribution can't have fewer ratings than this." )
 parser.add_argument(
-  "--lower_bound_mastery", 
-  nargs="?", 
+  "--lower_bound_mastery",
+  nargs="?",
   default=settings.lower_bound_mastery,
   help="Determines the lower boundary of mastery. The achieved secondary distribution can't have fewer ratings than this." )
 parser.add_argument(
-  "--lower_bound_versatility", 
-  nargs="?", 
+  "--lower_bound_versatility",
+  nargs="?",
   default=settings.lower_bound_versatility,
   help="Determines the lower boundary of versatility. The achieved secondary distribution can't have fewer ratings than this." )
 parser.add_argument(
-  "--upper_bound", 
-  nargs="?", 
+  "--upper_bound",
+  nargs="?",
   default=settings.upper_bound,
   help="Determines the upper boundary of all secondaries. No secondary can have more than the upper_bound." )
 
 ## SimulationCraft settings
 parser.add_argument(
-  "--simc_path", 
-  nargs="?", 
-  default=settings.simc_path, 
+  "--simc_path",
+  nargs="?",
+  default=settings.simc_path,
   help="Contains the path to SimulationCraft. Basic is '../simc.exe' for Windows users." )
 parser.add_argument(
-  "--default_actions", 
-  action="store_const", 
-  const=True, 
-  default=settings.default_actions, 
+  "--default_actions",
+  action="store_const",
+  const=True,
+  default=settings.default_actions,
   help="Enable default_actions for SimulationCraft." )
 parser.add_argument(
-  "-f", "--fight_style", 
-  nargs="?", 
+  "-f", "--fight_style",
+  nargs="?",
   default=settings.fight_style,
-  choices=simc_checks.get_fight_styles(), 
+  choices=simc_checks.get_fight_styles(),
   help="Decides uppon the fight style. -cfs has a higher priority." )
 parser.add_argument(
-  "-i", 
-  "--iterations", 
-  nargs="?", 
-  default=settings.iterations, 
-  choices=["5000", "7500", "10000", "12500", "15000", "25000", "50000", "250000", "500000"], 
+  "-i",
+  "--iterations",
+  nargs="?",
+  default=settings.iterations,
+  choices=["5000", "7500", "10000", "12500", "15000", "25000", "50000", "250000", "500000"],
   help="SimulationCraft maximum iterations." )
 parser.add_argument(
-  "--target_error", 
-  nargs="?", 
-  default=settings.target_error, 
-  choices=["0.5", "0.2", "0.1", "0.09", "0.08", "0.075", "0.07", "0.05", "0.0"], 
+  "--target_error",
+  nargs="?",
+  default=settings.target_error,
+  choices=["0.5", "0.2", "0.1", "0.09", "0.08", "0.075", "0.07", "0.05", "0.0"],
   help="Sets the target error of SimulationCraft" )
 parser.add_argument(
-  "--threads", 
-  nargs="?", 
-  default=settings.threads, 
+  "--threads",
+  nargs="?",
+  default=settings.threads,
   help="Sets the number of threads SimulationCraft will use." )
 parser.add_argument(
-  "--ptr", 
-  action="store_const", 
-  const=True, 
-  default=settings.ptr, 
+  "--ptr",
+  action="store_const",
+  const=True,
+  default=settings.ptr,
   help="Enable ptr calculation for SimulationCraft." )
 
 parser.add_argument(
-  "--step_size", 
-  nargs="?", 
+  "--step_size",
+  nargs="?",
   default=settings.step_size,
   help="Determines the step_size of fixed_steps calculation method." )
 
@@ -660,14 +664,16 @@ args.all_results = {}
 
 for talent_combination in talent_combinations:
   args.all_results[talent_combination] = []
-  
+
   last_result = calculation_manager.calculation_manager(args, talent_combination)
   result_list.append(last_result)
+
   print("Result: " + talent_combination + "\t", end="")
   print(last_result[1] + "\t" + last_result[2] + "\t\t" + last_result[3] + "\t\t" + last_result[4] + "\t\t" + last_result[5])
+
   args.current_combination_count += 1
   if output_manager.output_manager(args, [last_result], True):
-    print("Log sucessfull.")
+    print("Log successful.")
   else:
     print("Log failed.")
   print("")
@@ -677,7 +683,7 @@ print("Calculation took " + str(simulation_end - simulation_start))
 print("Generating output.")
 
 if output_manager.output_manager(args, result_list, False):
-  print("Output sucessfully written into ./results/.")
+  print("Output successfully written into ./results/.")
 else:
   print("Output failed.")
 
