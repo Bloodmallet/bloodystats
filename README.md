@@ -76,8 +76,9 @@ A successful run creates a txt file in the `results/` directory. Here you can th
 Lines starting with a number instead of spaces indicate the start of a new calculation group. The initial number represents the talent combination. Followed by DPS, crit, haste, mastery, and finally versatility. Lines starting with empty spaces are saved calculated values that performed within 1% of the best secondary rating combination. These should help to get an impression of how important or unimportant it really is to perfectly match the best distribution.
 
 The values of the example above are explained again in this table.
+
 talent combination | dps | crit | haste | mastery | versatility
----|---:|---:|---:|---:|---:
+--- | ---: | ---: | ---: | ---: | ---:
 1001331 | 2244768 | 12371 | 8371 | 12371 | 3871
  | 2244768 | 12371 | 8371 | 12371 | 3871
  | 2244246 | 10371 | 10371 | 12371 | 3871
