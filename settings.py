@@ -6,7 +6,7 @@
 
 
 # Bloodystats settings:
-calculation_method     = "differential_evolution" # differential_evolution or fixed_steps
+calculation_method     = "fixed_steps" # differential_evolution or fixed_steps
 custom_character_stats = False
 custom_fight_style     = False
 html                   = False
@@ -19,6 +19,9 @@ wow_class = "shaman"
 wow_race  = "draenei"
 wow_spec  = "elemental"
 talents   = "3002332"             # "" - empty, two digits (11 to 33) or whole talent combination
+                                  # "" - enables costum_talent_combinations and all talent combinations you've saved in that file
+                                  # XY - two digits automatically generate all dps talent combinations where the last two dps rows are set to the value of X and Y
+                                  # 1111111 - full talent combination is used to calculate only that talent combination
 
 profile          = "T21"
 tier_set_bonus_2 = False
