@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python3
+
 ###############################################################################
 ##
 ## Bloodystats uses SimulationCraft to get the best secondary stat distribution
@@ -45,9 +46,9 @@ import settings
 import sys
 
 ## Library with general wow information
-import libraries.simc_lib.wow_lib as wow_lib
+from simc_support import wow_lib as wow_lib
 ## Library with simc values and checks
-import libraries.simc_lib.simc_checks as simc_checks
+from simc_support import simc_checks as simc_checks
 
 ## Function which manages all available calculation functions
 import libraries.methods.calculation_manager as calculation_manager
@@ -370,7 +371,7 @@ def get_talent_combinations():
   elif len(args.talent_combination) == 7:
     combinations = __generate_talent_combinations(args.talent_combination)
   else:
-    sys.exit("Something went wrong when generating talent combinations. Please recheck your input and settings")
+    sys.exit("Something went wrong when generating talent combinations. Please recheck your input and settings.")
   return combinations
 
 ##
@@ -628,7 +629,7 @@ print("----------------------------")
 if not is_input():
   sys.exit("Encountered corrupted data.")
 else:
-  print("Data seems fine.")
+  print("Data check succeeded.")
 
 print("")
 print("Getting secondary ratings\t", end="")
