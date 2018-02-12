@@ -67,7 +67,7 @@ Example: `--talents 2113323`
 This input will make bloodystats run exactly one talent combination.
 
 ## Result
-A successful run creates a txt file in the `results/` directory. Here you can the best performing secondary combinations. Best performing in this case means "within 1% of the best found value".
+A successful run creates a txt file in the `results/` directory. Here you can find the best performing secondary combinations. Best performing in this case means "within 1% of the best found value". Your result file might look like this:
 ```
 1001331 2244768 12371 8371  12371 3871
         2244768 12371 8371  12371 3871
@@ -87,4 +87,4 @@ The values of the example above are explained again in this table.
 You can start right away. The strongest need right now would probably be the implementation of tests. But as I want to merge my different projects into one with the coming Battle for Azeroth expansion, be prepared, that those are probably going to see heavy changes. Anyway, I'd love to help if someone is interested in improving or adding something.
 
 ## Contact
-General support can be found at https://discord.gg/tFR2uvK in the channel #bloodytools. In addition to this you can easily open [issues in the repo](https://github.com/Bloodmallet/bloodystats/issues).
+General support can be found at https://discord.gg/tFR2uvK in the channel `#bloodytools`. In addition to this you can easily open [issues in the repo](https://github.com/Bloodmallet/bloodystats/issues).
