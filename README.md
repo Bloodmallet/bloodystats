@@ -77,11 +77,11 @@ Lines starting with a number instead of spaces indicate the start of a new calcu
 
 The values of the example above are explained again in this table.
 
-talent combination | dps | crit | haste | mastery | versatility
---- | ---: | ---: | ---: | ---: | ---:
-1001331 | 2244768 | 12371 | 8371 | 12371 | 3871
- | 2244768 | 12371 | 8371 | 12371 | 3871
- | 2244246 | 10371 | 10371 | 12371 | 3871
+| talent combination | dps | crit | haste | mastery | versatility |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1001331 | 2244768 | 12371 | 8371 | 12371 | 3871 |
+| | 2244768 | 12371 | 8371 | 12371 | 3871 |
+| | 2244246 | 10371 | 10371 | 12371 | 3871 |
 
 ## Development
 You can start right away. The strongest need right now would probably be the implementation of tests. But as I want to merge my different projects into one with the coming Battle for Azeroth expansion, be prepared, that those are probably going to see heavy changes. Anyway, I'd love to help if someone is interested in improving or adding something.
