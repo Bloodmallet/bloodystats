@@ -1,6 +1,8 @@
 Bloodystats
 ===========
 
+# This tool is deprecated with the launch of the Battle for Azeroth Prepatch. See [bloodytools](https://github.com/Bloodmallet/bloodytools) for an improved and continued tool.
+
 > Automatation tool to calculate best secondary stat rating distribution for dps for a given profile of a World of Warcraft character using SimulationCraft. It's designed in a way that should make it easy to add different approaches to solve this problem.
 
 ## Requirements
